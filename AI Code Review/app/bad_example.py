@@ -23,6 +23,6 @@ def get_user_data(user_id):
     }
 
 
-result = divide(10, 0)
+result = divide(10, 0) 
 
 print(result)
