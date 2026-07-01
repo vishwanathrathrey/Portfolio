@@ -1,16 +1,9 @@
-@@ -0,0 +1,14 @@
-+from pathlib import Path
+@@ -8,6 +8,8 @@ def save_patch(filename: str, patch: str):
+ 
+     file_path = reviews_dir / f"{safe_name}.diff"
+ 
++    print(f"Saving patch to reviews/: {filename} -> {file_path}")
 +
-+def save_patch(filename: str, patch: str):
-+    reviews_dir = Path("reviews")
-+    reviews_dir.mkdir(exist_ok=True)
-+
-+    safe_name = filename.replace("/", "_")
-+
-+    file_path = reviews_dir / f"{safe_name}.diff"
-+
-+    with open(file_path, "w", encoding="utf-8") as file:
-+        file.write(patch)
-+
-+    return file_path
-\ No newline at end of file
+     with open(file_path, "w", encoding="utf-8") as file:
+         file.write(patch)
+ 

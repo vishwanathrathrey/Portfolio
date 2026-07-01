@@ -125,6 +125,45 @@ def _has_matching_credential_evidence(description: str, line_text: str) -> bool:
     return bool(re.search(r"=\s*['\"].+['\"]", line_text))
 
 
+def _has_hardcoded_secret_evidence(description: str, line_text: str) -> bool:
+    description = _normalize(description)
+    line_text = _normalize(line_text)
+
+    keywords = [
+        "hardcoded",
+        "token",
+        "password",
+        "secret",
+        "credential",
+    ]
+
+    if not any(word in description for word in keywords):
+        return False
+
+    return bool(
+        re.search(
+            r"(password|token|secret|credential)\s*=\s*['\"].+['\"]",
+            line_text,
+            re.IGNORECASE,
+        )
+    )
+
+
+def _has_api_key_evidence(description: str, line_text: str) -> bool:
+    description = _normalize(description)
+
+    if "api key" not in description:
+        return False
+
+    return bool(
+        re.search(
+            r"(api[_ ]?key)\s*=\s*['\"].+['\"]",
+            line_text,
+            re.IGNORECASE,
+        )
+    )
+
+
 def _has_eval_evidence(description: str, line_text: str) -> bool:
     description = _normalize(description)
     line_text = _normalize(line_text)
@@ -157,27 +196,50 @@ def _has_sql_injection_evidence(description: str, line_text: str) -> bool:
 
     has_sql_keyword = any(
         keyword in line_text
-        for keyword in ["select", "insert", "update", "delete", "where", "from", "execute("]
+        for keyword in [
+            "select",
+            "insert",
+            "update",
+            "delete",
+            "where",
+            "from",
+            "execute("
+        ]
     )
+
     has_dynamic_sql = any(
         token in line_text
-        for token in ["f\"", "f'", " + ", ".format(", "format(", "{"]
+        for token in [
+            "f\"",
+            "f'",
+            " + ",
+            ".format(",
+            "format(",
+            "{",
+        ]
     )
 
     return has_sql_keyword and has_dynamic_sql
 
 
-def _has_exception_handling_evidence(description: str, line_number: int, line_map, ordered_lines) -> bool:
+def _has_exception_handling_evidence(
+    description: str,
+    line_number: int,
+    line_map,
+    ordered_lines,
+) -> bool:
+
     description = _normalize(description)
 
-    if "exception handling" not in description and "try/except" not in description and "try except" not in description:
+    if (
+        "exception handling" not in description
+        and "try/except" not in description
+        and "try except" not in description
+    ):
         return False
 
     line_text = _line_text(line_map, line_number)
-    print("\nDEBUG VALIDATION")
-    print("Description:", description)
-    print("Line Number:", line_number)
-    print("Line Text:", line_text)
+
     if not line_text:
         return False
 
@@ -192,10 +254,38 @@ def _has_exception_handling_evidence(description: str, line_number: int, line_ma
 
     nearby_context = "\n".join(nearby_lines).lower()
 
-    return "try:" not in nearby_context and "except" not in nearby_context
+    return (
+        "try:" not in nearby_context
+        and "except" not in nearby_context
+    )
 
 
-def get_evidence_validation_reason(description: str, line, diff_content: str):
+def _has_naming_evidence(description: str, line_text: str) -> bool:
+    description = _normalize(description)
+
+    keywords = [
+        "function name",
+        "parameter",
+        "variable name",
+        "too short",
+    ]
+
+    if not any(word in description for word in keywords):
+        return False
+
+    return bool(
+        re.search(
+            r"def\s+[a-z]{1,2}\(",
+            line_text,
+        )
+    )
+
+
+def get_evidence_validation_reason(
+    description: str,
+    line,
+    diff_content: str,
+):
     if _is_generic_description(description):
         return "No evidence found"
 
@@ -208,90 +298,46 @@ def get_evidence_validation_reason(description: str, line, diff_content: str):
         return "No evidence found"
 
     line_map, ordered_lines = _parse_diff_lines(diff_content)
-    
-    # Check the exact line first
+
+    # Exact line only
     line_text = _line_text(line_map, line_number)
-    print("\nDEBUG VALIDATION")
-    print("Description:", description)
-    print("Line Number:", line_number)
-    print("Line Text:", line_text)
-    
-    # If the exact line is blank, check nearby lines (AI may report wrong line number)
-    if not line_text:
-        for offset in [1, 2, 3, -1, -2, -3]:
-            nearby_line = line_number + offset
-            line_text = _line_text(line_map, nearby_line)
-            if line_text:
-                line_number = nearby_line
-                break
-    
-    # If still no content found, reject
+
     if not line_text:
         return "No evidence found"
 
-    if _has_matching_credential_evidence(description, line_text):
-        return None
-    
-    if _has_hardcoded_secret_evidence(description, line_text):
-        return None
+    validators = [
+        lambda: _has_matching_credential_evidence(description, line_text),
+        lambda: _has_hardcoded_secret_evidence(description, line_text),
+        lambda: _has_api_key_evidence(description, line_text),
+        lambda: _has_eval_evidence(description, line_text),
+        lambda: _has_division_by_zero_evidence(description, line_text),
+        lambda: _has_sql_injection_evidence(description, line_text),
+        lambda: _has_exception_handling_evidence(
+            description,
+            line_number,
+            line_map,
+            ordered_lines,
+        ),
+        lambda: _has_naming_evidence(description, line_text),
+    ]
 
-    if _has_eval_evidence(description, line_text):
-        return None
-
-    if _has_division_by_zero_evidence(description, line_text):
-        return None
-
-    if _has_sql_injection_evidence(description, line_text):
-        return None
-
-    if _has_exception_handling_evidence(description, line_number, line_map, ordered_lines):
-        return None
-    
-    if _has_naming_evidence(description, line_text):
-        return None
+    for validator in validators:
+        if validator():
+            return None
 
     return "No evidence found"
 
 
-def validate_finding_evidence(description: str, line, diff_content: str) -> bool:
-    return get_evidence_validation_reason(description, line, diff_content) is None
-
-def _has_hardcoded_secret_evidence(description: str, line_text: str) -> bool:
-
-    description = _normalize(description)
-    line_text = _normalize(line_text)
-
-    keywords = [
-        "hardcoded",
-        "token",
-        "password",
-        "secret",
-        "credential",
-        "api key"
-    ]
-
-    if not any(word in description for word in keywords):
-        return False
-
-    return bool(re.search(r"=\s*['\"].+['\"]", line_text))
-
-def _has_naming_evidence(description: str, line_text: str) -> bool:
-
-    description = _normalize(description)
-
-    keywords = [
-        "function name",
-        "parameter",
-        "variable name",
-        "too short"
-    ]
-
-    if not any(word in description for word in keywords):
-        return False
-
-    return bool(
-        re.search(
-            r"def\s+[a-z]{1,2}\(",
-            line_text
+def validate_finding_evidence(
+    description: str,
+    line,
+    diff_content: str,
+) -> bool:
+    return (
+        get_evidence_validation_reason(
+            description,
+            line,
+            diff_content,
         )
+        is None
     )
