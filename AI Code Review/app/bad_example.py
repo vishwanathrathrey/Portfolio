@@ -7,6 +7,10 @@ def divide(a, b):
     return a / b
 
 
+def run_expression(user_input):
+    return eval(user_input)
+
+
 def get_user_data(user_id):
 
     password = "admin123"  # hardcoded password
@@ -23,6 +27,12 @@ def get_user_data(user_id):
     }
 
 
-result = divide(10, 0) 
+result = divide(10, 0)
 
 print(result)
+
+print(
+    run_expression(
+        "2 + 2"
+    )
+)
