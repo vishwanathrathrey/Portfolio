@@ -40,6 +40,10 @@ This repository contains data analysis, machine learning, and backend data pipel
 	- Folder: credit-risk-ml-system
 	- Focus: End-to-end credit risk prediction system with PySpark ETL, model training, FastAPI, and a React dashboard
 
+10. AI Code Review
+	- Folder: AI Code Review
+	- Focus: Automated AI-powered code analysis for GitHub pull requests
+
 ## What Is Inside Each Project
 
 Notebook-based projects typically include:
@@ -109,6 +113,26 @@ npm run dev -- --host 127.0.0.1
 
 ```bash
 python ml/train_model.py
+```
+
+### AI Code Review
+
+1. Move to the project folder:
+
+```bash
+cd "AI Code Review"
+```
+
+2. Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Run the webhook server:
+
+```bash
+python webhook_server.py
 ```
 
 ## Data Notes
