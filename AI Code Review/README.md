@@ -161,9 +161,3 @@ Validate the divisor before performing the division to prevent a ZeroDivisionErr
 -   **CI/CD Integration**: Package the system as a GitHub Action or a container to allow for seamless integration into existing CI/CD pipelines.
 
 ---
-
-## Author
-
--   **Name**: [Your Name]
--   **GitHub**: [Your GitHub Profile URL]
--   **LinkedIn**: [Your LinkedIn Profile URL]
