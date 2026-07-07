@@ -95,13 +95,15 @@ This project develops a machine learning pipeline to predict the risk of cardiov
 - **`GridSearchCV`:** Using a grid search with a recall scoring metric was key to finding a decision tree configuration that minimized false negatives and didn't overfit.
 
 ## Repository Structure
+
+```
 CardioRisk-Prediction/
 ├── data/
 │ └── health_data.csv # Sample data
 ├── CardioRisk_Prediction.ipynb # Full Jupyter Notebook
 ├── report.pdf # Comprehensive project report
 └── README.md # Project overview
-
+```
 
 ## Notes
 

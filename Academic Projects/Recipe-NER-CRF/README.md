@@ -205,7 +205,7 @@ The workflow demonstrates a complete natural language processing (NLP) pipeline 
 - Minimal overfitting indicates appropriate regularization and model complexity
 
 ## Repository Structure
-
+```
 Recipe-NER-CRF/
 ├── data/
 │ └── sample/
@@ -213,7 +213,7 @@ Recipe-NER-CRF/
 ├── notebook.ipynb
 ├── report.pdf
 └── README.md
-
+```
 
 ## Notes
 

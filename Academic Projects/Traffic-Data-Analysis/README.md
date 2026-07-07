@@ -189,7 +189,7 @@ The project demonstrates end-to-end data engineering and analytics capabilities:
 ---
 
 ## 📁 Repository Structure
-
+```
 Traffic-Data-Analysis/
 ├── data/
 │ └── sample/
@@ -200,7 +200,7 @@ Traffic-Data-Analysis/
 ├── ETL_Traffic_Data_Analysis.ipynb
 ├── Report.pdf
 └── README.md
-
+```
 ---
 
 ## 📝 Notes

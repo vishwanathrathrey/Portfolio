@@ -58,7 +58,7 @@ An ETL and analytics project on traffic collision data. Performs data extraction
 - **E-commerce Data Management**: File I/O and data persistence system handling CSV, JSON, and TXT formats with CRUD operations.
 
 ## Repository Structure
-
+```
 Academic-Projects/
 ├── Car-Price-Prediction/
 │ ├── notebook.ipynb
@@ -91,7 +91,7 @@ Academic-Projects/
 │ ├── notebook.ipynb
 │ └── README.md
 └── README.md
-
+```
 
 ## Technology Stack
 

@@ -111,13 +111,14 @@ The most significant finding from the analysis was that the **log-transformation
 
 ## Repository Structure
 
+```
 Car-Price-Prediction/
 ├── data/
 │ └── sample/ # Sample data (full dataset excluded)
 ├── CarPricePrediction.ipynb # Main analysis notebook
 ├── report.pdf # Full project report
 └── README.md # This file
-
+```
 
 ## Notes
 

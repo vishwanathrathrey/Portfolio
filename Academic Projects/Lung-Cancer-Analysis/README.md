@@ -199,14 +199,14 @@ Analyzing high-risk cohorts requires combining multiple conditions using logical
 The dataset's synthetic nature is evident in the perfect consistency of treatment durations and the absence of high-risk survivors. Real-world healthcare data would show more variation and complexity.
 
 ## Repository Structure
-
+```
 Lung-Cancer-Analysis/
 ├── data/
 │ └── sample/
 │ └── lung_cancer_sample.csv
 ├── Lung_Cancer_Mini_Assignment_1.ipynb
 └── README.md
-
+```
 
 ## Getting Started
 

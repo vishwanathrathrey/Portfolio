@@ -104,7 +104,7 @@ The architecture is intentionally designed to support future GitHub webhook inte
 
 # Project Structure
 
-```text
+```
 AI-Code-Review/
 │
 ├── app/

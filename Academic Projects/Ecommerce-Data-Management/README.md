@@ -126,11 +126,11 @@ User-facing data entry functions require thorough input validation. The project 
 Using dictionaries keyed by unique identifiers (SKU) allows for efficient data retrieval and updates, demonstrating how in-memory data structures can mirror database-like functionality for small to medium datasets.
 
 ## Repository Structure
-
+```
 Ecommerce-Data-Management/
 ├── File_Handling.ipynb # Complete implementation
 └── README.md
-
+```
 
 ## Getting Started
 
