@@ -1,0 +1,98 @@
+# Consolidated .gitignore
+
+# Environments
+.env
+.venv/
+venv/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Logs
+*.log
+logs/
+
+# VSCode
+.vscode/
+
+# Project-specific ignores
+
+# Personal Projects
+/Personal Projects/AI-Code-Review/reviews/*.diff
+/Personal Projects/AI-Code-Review/reports/*.md
+/Personal Projects/AI-Code-Review/reports/*.html
+/Personal Projects/AI-Code-Review/reports/*.txt
+
+/Personal Projects/credit-risk-ml-system/logs/
+/Personal Projects/credit-risk-ml-system/data/raw/
+/Personal Projects/credit-risk-ml-system/data/interim/
+/Personal Projects/credit-risk-ml-system/data/processed/
+/Personal Projects/credit-risk-ml-system/models/*.pkl
+/Personal Projects/credit-risk-ml-system/models/*.joblib
+/Personal Projects/credit-risk-ml-system/frontend/node_modules/
+/Personal Projects/credit-risk-ml-system/frontend/dist/
+
+# Academic Projects
+# Note: The following rules are repetitive. They are structured to ignore data files
+# in each project's root while allowing sample data.
+
+# Car-Price-Prediction
+/Academic Projects/Car-Price-Prediction/data/raw/
+/Academic Projects/Car-Price-Prediction/*.csv
+/Academic Projects/Car-Price-Prediction/*.parquet
+!/Academic Projects/Car-Price-Prediction/data/sample/
+!/Academic Projects/Car-Price-Prediction/data/sample/**
+
+# Ecommerce-Data-Management
+/Academic Projects/Ecommerce-Data-Management/data/raw/
+/Academic Projects/Ecommerce-Data-Management/*.csv
+/Academic Projects/Ecommerce-Data-Management/*.parquet
+!/Academic Projects/Ecommerce-Data-Management/data/sample/
+!/Academic Projects/Ecommerce-Data-Management/data/sample/**
+
+# Flight-Delay-Analysis
+/Academic Projects/Flight-Delay-Analysis/data/raw/
+/Academic Projects/Flight-Delay-Analysis/*.csv
+/Academic Projects/Flight-Delay-Analysis/*.parquet
+!/Academic Projects/Flight-Delay-Analysis/data/sample/
+!/Academic Projects/Flight-Delay-Analysis/data/sample/**
+
+# Lung-Cancer-Analysis
+/Academic Projects/Lung-Cancer-Analysis/data/raw/
+/Academic Projects/Lung-Cancer-Analysis/*.csv
+/Academic Projects/Lung-Cancer-Analysis/*.parquet
+!/Academic Projects/Lung-Cancer-Analysis/data/sample/
+!/Academic Projects/Lung-Cancer-Analysis/data/sample/**
+
+# NYC-Taxi-Data-Analysis
+/Academic Projects/NYC-Taxi-Data-Analysis/data/raw/
+/Academic Projects/NYC-Taxi-Data-Analysis/*.csv
+/Academic Projects/NYC-Taxi-Data-Analysis/*.parquet
+!/Academic Projects/NYC-Taxi-Data-Analysis/data/sample/
+!/Academic Projects/NYC-Taxi-Data-Analysis/data/sample/**
+
+# Traffic-Data-Analysis
+/Academic Projects/Traffic-Data-Analysis/data/raw/
+/Academic Projects/Traffic-Data-Analysis/*.csv
+/Academic Projects/Traffic-Data-Analysis/*.parquet
+!/Academic Projects/Traffic-Data-Analysis/data/sample/
+!/Academic Projects/Traffic-Data-Analysis/data/sample/**
+
+# General data file ignores (apply to all subdirectories)
+**/data/raw/
+**/*.csv
+**/*.parquet
+**/*.dbf
+**/*.shp
+**/*.shx
+**/*.sbn
+**/*.sbx
+
+# But don't ignore sample data
+!**/data/sample/
+!**/data/sample/**
