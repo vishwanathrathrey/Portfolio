@@ -1,141 +1,148 @@
 # Customer Data Pipeline
 
-Containerized data pipeline using Flask, FastAPI, and PostgreSQL.
+A containerized, end-to-end data pipeline that ingests customer data from a mock API, processes it, and stores it in a PostgreSQL database. This project demonstrates a microservices architecture using Flask, FastAPI, and Docker.
 
 ## Overview
 
-This project runs 3 services with Docker Compose:
+This project implements a complete data pipeline within a local, containerized environment. It showcases the integration of multiple services to create a robust system for data ingestion and retrieval. The pipeline consists of three core services orchestrated with Docker Compose:
 
-1. Mock Server (Flask, port 5000): serves customer JSON data with pagination.
-2. Pipeline Service (FastAPI, port 8000): ingests customer data and exposes query APIs.
-3. PostgreSQL (port 5432): stores ingested customer records.
+1.  **Mock Data Server (Flask)**: A RESTful API that serves paginated customer data in JSON format, simulating a real-world data source.
+2.  **Pipeline Service (FastAPI)**: The central component that ingests data from the mock server, validates it, and stores it in the PostgreSQL database. It also provides its own API to query the processed data.
+3.  **PostgreSQL Database**: A persistent relational database for storing customer records.
 
-Data flow:
+## Features
 
-```text
-mock-server (JSON API) -> pipeline-service (ingestion + API) -> postgres (persistent storage)
+- **Microservices Architecture**: Decoupled services for data generation, processing, and storage.
+- **Containerized Deployment**: Fully containerized with Docker and Docker Compose for easy setup and consistent execution.
+- **Asynchronous Ingestion**: The pipeline service ingests data in the background, allowing the API to respond immediately.
+- **RESTful APIs**: Both the mock server and pipeline service expose clean, well-documented REST APIs for interaction and health monitoring.
+- **Scalable Design**: The architecture allows for individual services to be scaled independently.
+- **Automated Schema Creation**: The pipeline service automatically creates the required database table on startup.
+
+## Architecture
+
+The data flows through the system as follows:
+
+```
+┌─────────────┐      ┌──────────────────┐      ┌────────────────┐
+│ Mock Server │      │ Pipeline Service │      │   PostgreSQL   │
+│ (Flask API) │──────► (FastAPI Ingestion)├──────► (DB Storage)   │
+└─────────────┘      └──────────────────┘      └────────────────┘
+       ▲                    │
+       │                    │
+       └────────────────────┘
+         (API for Querying)
 ```
 
 ## Project Structure
 
-```text
-customer-data-pipeline/
-|- docker-compose.yml
-|- README.md
-|- mock-server/
-|  |- app.py
-|  |- Dockerfile
-|  |- requirements.txt
-|  `- data/customers.json
-`- pipeline-service/
-   |- app.py
-   |- Dockerfile
-   `- requirements.txt
+```
+Customer-Data-Pipeline/
+├── docker-compose.yml
+├── README.md
+├── mock-server/
+│   ├── app.py
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   └── data/customers.json
+└── pipeline-service/
+    ├── app.py
+    ├── Dockerfile
+    └── requirements.txt
 ```
 
-## Prerequisites
+## Setup and Usage
+
+### Prerequisites
 
 - Docker Desktop (or Docker Engine + Docker Compose)
-- curl or Postman for API testing
+- A tool for API testing, such as `curl` or Postman.
 
-## Quick Start
+### Quick Start
 
-From the customer-data-pipeline directory:
+1.  **Clone the repository** and navigate to the `customer-data-pipeline` directory.
 
-```bash
-docker-compose up -d --build
-docker-compose ps
-```
+2.  **Build and run the services** using Docker Compose:
+    ```bash
+    docker-compose up -d --build
+    ```
 
-Check health endpoints:
+3.  **Verify that all containers are running**:
+    ```bash
+    docker-compose ps
+    ```
 
-```bash
-curl http://localhost:5000/api/health
-curl http://localhost:8000/api/health
-```
+4.  **Check the health of the services**:
+    ```bash
+    curl http://localhost:5000/api/health
+    curl http://localhost:8000/api/health
+    ```
 
-Stop services:
+### End-to-End Test Flow
 
-```bash
-docker-compose down
-```
+Follow these steps to test the complete data flow:
 
-Stop services and remove database volume:
+1.  **Verify the mock data API** is serving customer data:
+    ```bash
+    curl "http://localhost:5000/api/customers?page=1&limit=5"
+    ```
 
-```bash
-docker-compose down -v
-```
+2.  **Trigger the ingestion process**. This will start the background task to fetch data from the mock server and load it into PostgreSQL:
+    ```bash
+    curl -X POST http://localhost:8000/api/ingest
+    ```
 
-## End-to-End Test Flow
+3.  **Wait a few seconds** for ingestion to complete, then **validate the stored records** by querying the pipeline service:
+    ```bash
+    curl "http://localhost:8000/api/customers?page=1&limit=5"
+    ```
 
-```bash
-# 1) Verify mock data API
-curl "http://localhost:5000/api/customers?page=1&limit=5"
+4.  **Fetch a single customer** by their ID to confirm data integrity:
+    ```bash
+    curl http://localhost:8000/api/customers/CUST001
+    ```
 
-# 2) Trigger ingestion into PostgreSQL
-curl -X POST http://localhost:8000/api/ingest
+### Stopping the Services
 
-# 3) Wait a few seconds, then validate stored records from pipeline API
-curl "http://localhost:8000/api/customers?page=1&limit=5"
+- To **stop all services**:
+  ```bash
+  docker-compose down
+  ```
+- To **stop services and remove the database volume** (deleting all stored data):
+  ```bash
+  docker-compose down -v
+  ```
 
-# 4) Fetch one customer
-curl http://localhost:8000/api/customers/CUST001
-```
-
-## API Reference
+## API Documentation
 
 ### Mock Server (Flask)
 
-Base URL: http://localhost:5000
+Base URL: `http://localhost:5000`
 
-- GET /api/health
-- GET /api/customers?page=1&limit=10
-- GET /api/customers/{customer_id}
+| Method | Endpoint                      | Description                               |
+| :----- | :---------------------------- | :---------------------------------------- |
+| `GET`  | `/api/health`                 | Health check endpoint.                    |
+| `GET`  | `/api/customers`              | Get a paginated list of customers.        |
+| `GET`  | `/api/customers/{customer_id}`| Get a single customer by ID.              |
 
-Example:
-
-```bash
-curl "http://localhost:5000/api/customers?page=2&limit=10"
-```
+**Query Parameters for `/api/customers`**:
+- `page` (integer, default: 1): The page number to retrieve.
+- `limit` (integer, default: 10): The number of records per page.
 
 ### Pipeline Service (FastAPI)
 
-Base URL: http://localhost:8000
+Base URL: `http://localhost:8000`
 
-- GET /api/health
-- POST /api/ingest
-- GET /api/customers?page=1&limit=10
-- GET /api/customers/{customer_id}
-
-Examples:
-
-```bash
-curl -X POST http://localhost:8000/api/ingest
-curl "http://localhost:8000/api/customers?page=1&limit=10"
-```
-
-## Environment Variables
-
-Configured in docker-compose.yml.
-
-PostgreSQL:
-
-- POSTGRES_USER=postgres
-- POSTGRES_PASSWORD=password
-- POSTGRES_DB=customer_db
-
-Pipeline service:
-
-- DATABASE_URL=postgresql://postgres:password@postgres:5432/customer_db
-- FLASK_URL=http://mock-server:5000
-
-Mock server:
-
-- FLASK_ENV=production
+| Method | Endpoint                      | Description                               |
+| :----- | :---------------------------- | :---------------------------------------- |
+| `GET`  | `/api/health`                 | Health check endpoint.                    |
+| `POST` | `/api/ingest`                 | Triggers the data ingestion process.      |
+| `GET`  | `/api/customers`              | Get a paginated list of stored customers. |
+| `GET`  | `/api/customers/{customer_id}`| Get a single stored customer by ID.       |
 
 ## Database Schema
 
-The pipeline service creates the customers table automatically on startup.
+The `customers` table is created automatically by the pipeline service with the following schema:
 
 ```sql
 CREATE TABLE customers (
@@ -151,39 +158,22 @@ CREATE TABLE customers (
 );
 ```
 
-## Troubleshooting
+## Key Learnings
 
-View all logs:
+- **Microservices Design**: Gained experience in designing, building, and integrating decoupled services.
+- **Containerization with Docker**: Mastered creating Dockerfiles and orchestrating multi-container applications with Docker Compose.
+- **API Development**: Developed RESTful APIs using both Flask and FastAPI, understanding the trade-offs of each framework.
+- **Data Engineering**: Implemented a complete ETL (Extract, Transform, Load) process, including data fetching, validation, and storage.
+- **Database Management**: Worked with PostgreSQL in a containerized environment, including automated schema creation and data querying.
 
-```bash
-docker-compose logs -f
-```
+## Future Enhancements
 
-View one service log:
+- **Data Validation**: Implement robust data validation using Pydantic to handle malformed records gracefully.
+- **Error Handling and Retries**: Add a retry mechanism for failed API calls and a dead-letter queue for records that fail to process.
+- **Scalability**: Introduce a message queue (e.g., RabbitMQ, Kafka) between the services to improve scalability and resilience.
+- **Enhanced Monitoring**: Integrate a monitoring solution like Prometheus and Grafana to track service health and performance metrics.
+- **CI/CD Pipeline**: Set up a continuous integration and deployment pipeline to automate testing and deployments.
 
-```bash
-docker-compose logs mock-server
-docker-compose logs pipeline-service
-docker-compose logs postgres
-```
+## About
 
-Check data in PostgreSQL:
-
-```bash
-docker-compose exec postgres psql -U postgres -d customer_db -c "SELECT COUNT(*) FROM customers;"
-```
-
-If ingestion returns success but data is not visible immediately, wait a few seconds and call:
-
-```bash
-curl "http://localhost:8000/api/customers?page=1&limit=10"
-```
-
-## Notes
-
-- This repository includes sample customer data under mock-server/data/customers.json.
-- The ingestion endpoint runs in the background and returns immediately.
-
-## License
-
-Educational project.
+This project was developed as a personal learning exercise to demonstrate proficiency in building data-driven applications with modern engineering practices.

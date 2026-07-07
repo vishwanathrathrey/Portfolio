@@ -6,7 +6,7 @@ Welcome to my portfolio. This repository showcases my journey and project work a
 
 This collection includes a mix of academic coursework and personal projects.
 
-*   **Academic Projects**: These demonstrate my foundational understanding of core machine learning concepts, including Exploratory Data Analysis (EDA), data cleaning, feature engineering, model building, and evaluation.
+*   **Academic Projects**: These demonstrate my foundational understanding of core machine learning concepts, including Exploratory Data Analysis (EDA), data cleaning, feature engineering, model building, and evaluation using tools like PySpark and Scikit-learn.
 *   **Personal Projects**: These are practical, hands-on implementations showcasing my skills in building end-to-end systems, including data engineering pipelines, API development, MLOps principles, and Generative AI applications.
 
 ### Key Concepts & Technologies
@@ -14,9 +14,9 @@ This collection includes a mix of academic coursework and personal projects.
 | Category              | Skills & Concepts                                                                                             |
 | --------------------- | ------------------------------------------------------------------------------------------------------------- |
 | **Machine Learning**  | EDA, Data Cleaning, Feature Engineering, Feature Selection, Data Visualization, Classification, Regression, Model Evaluation, Hyperparameter Tuning |
-| **Data Engineering**  | ETL Pipelines, API Development, Docker, Data Modeling                                                         |
-| **Generative AI**     | LLM Integration, Prompt Engineering, AI-driven Code Analysis                                                  |
-| **Software & MLOps**  | FastAPI, Git, CI/CD, Model Deployment, System Design                                                          |
+| **Data Engineering**  | ETL Pipelines, API Development, Docker, Containerization, Data Modeling, PostgreSQL, PySpark |
+| **Generative AI**     | LLM Integration, Prompt Engineering, AI-driven Code Analysis, Output Normalization |
+| **Software & MLOps**  | FastAPI, Flask, REST APIs, Git, CI/CD, Model Deployment, System Design, Microservices |
 
 ---
 
@@ -26,27 +26,28 @@ The projects are organized into two categories. For detailed information about e
 
 ### Personal Projects
 
-These projects were built to solve practical problems and demonstrate my ability to design, build, and deploy data-driven applications.
+These projects were built to solve practical problems and demonstrate my ability to design, build, and deploy data-driven applications from the ground up.
 
 | Project                 | Description                                                                                                                            |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| **[AI Code Review](./Personal%20Projects/AI%20Code%20Review)**      | An automated code review system that uses a Large Language Model (LLM) to analyze pull requests, identify issues, and post comments.      |
-| **[Credit Risk ML System](./Personal%20Projects/credit-risk-ml-system)** | An end-to-end machine learning system that predicts credit risk. Includes a data pipeline, model training, and a REST API for predictions. |
-| **[Customer Data Pipeline](./Personal%20Projects/customer-data-pipeline)**| A data engineering project to build a robust ETL pipeline for processing customer data from multiple sources into a data warehouse.      |
+| **[AI Code Review](./Personal%20Projects/AI-Code-Review)**      | An automated code review system that uses a Large Language Model (LLM) to analyze pull request diffs, detect bugs and vulnerabilities, and generate comprehensive reports. |
+| **[Credit Risk ML System](./Personal%20Projects/Credit-Risk-ML-System)** | An end-to-end machine learning system that predicts credit risk using the Home Credit Default Risk dataset. Includes PySpark data processing, Scikit-learn model training, FastAPI backend, and React frontend. |
+| **[Customer Data Pipeline](./Personal%20Projects/Customer-Data-Pipeline)**| A containerized microservices-based ETL pipeline for ingesting, processing, and storing customer data from a mock API into PostgreSQL. |
 
 ### Academic Projects
 
-These projects were completed as part of my MSc coursework. They demonstrate my understanding of fundamental ML concepts and data analysis techniques.
+These projects were completed as part of my MSc coursework. They demonstrate my understanding of fundamental ML concepts, data analysis techniques, and big data processing.
 
 | Project                    | Description                                                                                             |
 | -------------------------- | ------------------------------------------------------------------------------------------------------- |
-| **[Car Price Prediction](./Academic%20Projects/Car%20Price)**   | A regression project to predict the price of used cars based on their features.                         |
-| **[CardioRisk Prediction](./Academic%20Projects/CardioRisk)**  | A classification project to predict the risk of cardiovascular disease based on patient health data.    |
-| **[File Handling](./Academic%20Projects/File%20Handling)** | Examples of file handling operations in Python. |
-| **[Flight Data Analysis](./Academic%20Projects/Flight%20Mini%20assignmrnt)**   | An exploratory data analysis (EDA) of flight data to uncover patterns and insights.                     |
-| **[Lung Cancer Analysis](./Academic%20Projects/Lung%20Cancer%20Mini%20Assignment)**   | An analysis of lung cancer patient data to identify key risk factors.                                   |
-| **[NYC Taxi Analysis](./Academic%20Projects/NYC%20Taxi%20Analysis)**      | An EDA of the NYC taxi dataset to analyze trip patterns and fare structures.                            |
-| **[Traffic Data Analysis](./Academic%20Projects/Traffic%20Data%20Analysis)**  | An ETL and data analysis project on traffic data to understand congestion patterns.                     |
+| **[Car Price Prediction](./Academic%20Projects/Car-Price-Prediction)**   | A regression project to predict the price of used cars based on their features using Scikit-learn. |
+| **[CardioRisk Prediction](./Academic%20Projects/CardioRisk-Prediction)**  | A classification project to predict the risk of cardiovascular disease based on patient health data. |
+| **[E-commerce Data Management](./Academic%20Projects/Ecommerce-Data-Management)** | A file handling project demonstrating multi-format (CSV, JSON, TXT) data management for product information. |
+| **[Flight Delay Analysis](./Academic%20Projects/Flight-Delay-Analysis)**   | A PySpark-based analysis of domestic flight delay patterns, operational metrics, and early arrival statistics. |
+| **[Lung Cancer Analysis](./Academic%20Projects/Lung-Cancer-Analysis)**   | A PySpark healthcare analytics project examining treatment patterns, survival rates, and geographical variations in lung cancer staging. |
+| **[NYC Taxi Analysis](./Academic%20Projects/NYC-Taxi-Data-Analysis)**      | An exploratory data analysis of the NYC taxi dataset to analyze trip patterns, peak hours, and fare distributions. |
+| **[Recipe NER-CRF](./Academic%20Projects/Recipe-NER-CRF)** | A Natural Language Processing project implementing Named Entity Recognition (NER) using Conditional Random Fields (CRF) to extract ingredients, quantities, and units from recipe texts. |
+| **[Traffic Data Analysis](./Academic%20Projects/Traffic-Data-Analysis)**  | An ETL and data analysis project on traffic collision data to identify accident patterns and high-risk locations. |
 
 ---
 
@@ -54,52 +55,106 @@ These projects were completed as part of my MSc coursework. They demonstrate my 
 
 My skills have progressed from foundational data analysis to building complex, end-to-end AI systems. This path reflects a continuous effort to deepen my expertise and apply it to practical, real-world scenarios.
 
-1.  **Data Analysis & Visualization**: Began with analyzing datasets to extract insights and visualize patterns.
-2.  **Feature Engineering & Machine Learning**: Moved on to building and evaluating predictive models.
-3.  **Data Engineering & API Development**: Advanced to creating robust data pipelines and deploying models via APIs.
-4.  **MLOps Concepts**: Gained experience with containerization (Docker) and system design for ML.
-5.  **Generative AI**: Currently focused on leveraging Large Language Models to build intelligent applications.
+1.  **Data Analysis & Visualization**: Began with analyzing datasets to extract insights, visualize patterns, and communicate findings effectively.
 
-Thank you for visiting my portfolio. I am actively seeking opportunities where I can apply my skills to solve challenging problems in AI and Data Engineering.
+2.  **Feature Engineering & Machine Learning**: Moved on to building and evaluating predictive models, understanding model selection, hyperparameter tuning, and performance metrics.
+
+3.  **Big Data Processing**: Gained experience with PySpark for processing large-scale datasets efficiently in distributed environments.
+
+4.  **Data Engineering & API Development**: Advanced to creating robust data pipelines, designing database schemas, and deploying models via REST APIs using FastAPI and Flask.
+
+5.  **Containerization & MLOps**: Mastered Docker and Docker Compose for consistent deployment, learning microservices architecture and service orchestration.
+
+6.  **Generative AI**: Currently focused on leveraging Large Language Models to build intelligent applications, with expertise in prompt engineering, output normalization, and AI-driven automation.
+
+7.  **Full-Stack Integration**: Developed skills in connecting React frontends with Python backends for complete, user-facing AI applications.
+
+---
+
+## Technology Stack
+
+| Category | Technologies |
+|----------|--------------|
+| **Languages** | Python 3.x, TypeScript, JavaScript |
+| **ML & Data** | PySpark, Scikit-learn, Pandas, NumPy, CRFsuite, spaCy |
+| **AI & LLMs** | OpenAI API, Prompt Engineering, LLM Integration |
+| **Backend** | FastAPI, Flask, REST APIs, SMTP |
+| **Frontend** | React, Vite, HTML, CSS |
+| **Databases** | PostgreSQL |
+| **Containerization** | Docker, Docker Compose |
+| **Version Control** | Git, GitHub REST API |
+| **Testing** | Postman |
+| **Development** | Jupyter Notebook, Google Colab |
+
+---
+
+## Key Skills Demonstrated
+
+| Skill Area | Specific Competencies |
+|------------|----------------------|
+| **Machine Learning** | Regression, Classification, Feature Engineering, Model Evaluation, Hyperparameter Tuning |
+| **NLP** | Named Entity Recognition, Conditional Random Fields, Feature Extraction, spaCy |
+| **Big Data** | PySpark, Distributed Computing, Data Aggregation, Large-Scale Processing |
+| **Data Engineering** | ETL Pipelines, Data Modeling, Database Design, Data Validation |
+| **Software Engineering** | API Design, Microservices, Docker Containerization, Pipeline Architecture |
+| **Full-Stack Development** | FastAPI Backend, React Frontend, Frontend-Backend Integration |
+| **AI Integration** | LLM Integration, Prompt Engineering, AI Output Normalization |
+
+---
+
+## Repository Structure
+
+Portfolio/
+├── Academic Projects/
+│ ├── Car-Price-Prediction/
+│ ├── CardioRisk-Prediction/
+│ ├── Ecommerce-Data-Management/
+│ ├── Flight-Delay-Analysis/
+│ ├── Lung-Cancer-Analysis/
+│ ├── NYC-Taxi-Data-Analysis/
+│ ├── Recipe-NER-CRF/
+│ ├── Traffic-Data-Analysis/
+│ └── README.md
+├── Personal Projects/
+│ ├── AI-Code-Review/
+│ ├── Credit-Risk-ML-System/
+│ ├── Customer-Data-Pipeline/
+│ └── README.md
+└── README.md
 
 
-2. Start the API and frontend locally:
+---
 
-```bash
-uvicorn api.main:app --host 127.0.0.1 --port 8000
-cd frontend
-npm install
-npm run dev -- --host 127.0.0.1
-```
+## Project Highlights
 
-3. Train the model if needed:
+### Academic Projects
+- **PySpark Analytics**: Multiple projects (Flight Delay, Lung Cancer) demonstrate big data processing capabilities on 890,000+ record datasets
+- **NLP Implementation**: Recipe NER-CRF project showcases Conditional Random Fields with comprehensive feature engineering (lexical, syntactic, contextual)
+- **Multi-format Data Management**: E-commerce project demonstrates professional-grade file I/O across CSV, JSON, and TXT formats
+- **End-to-End ML**: Car Price and CardioRisk projects show complete regression and classification workflows with Scikit-learn
 
-```bash
-python ml/train_model.py
-```
+### Personal Projects
+- **AI Integration**: Code Review System demonstrates LLM integration with output normalization, evidence validation, and security scanning
+- **Full-Stack ML**: Credit Risk system combines PySpark preprocessing, Scikit-learn training, FastAPI serving, and React dashboard
+- **Microservices Architecture**: Customer Data Pipeline uses Flask, FastAPI, and Docker for ETL orchestration
+- **Containerization**: All personal projects are Dockerized for consistent deployment
 
-### AI Code Review
+---
 
-1. Move to the project folder:
+## About Me
 
-```bash
-cd "AI Code Review"
-```
+I am a professional transitioning from Software Engineering to Machine Learning and Data Engineering. This portfolio represents my journey in building practical, end-to-end AI systems and demonstrates:
 
-2. Install dependencies:
+- **Foundational ML Knowledge**: Understanding of algorithms, evaluation, and feature engineering
+- **Practical Implementation**: Ability to build complete, deployable systems
+- **Full-Stack Capability**: Experience with both backend APIs and frontend interfaces
+- **Big Data Skills**: Proficiency with PySpark for large-scale processing
+- **AI Integration**: Practical experience with LLMs and Generative AI
 
-```bash
-pip install -r requirements.txt
-```
+I am actively seeking opportunities where I can apply these skills to solve challenging problems in AI and Data Engineering.
 
-3. Run the webhook server:
+---
 
-```bash
-python webhook_server.py
-```
+## Contact
 
-## Data Notes
-
-- This repository includes sample datasets for learning and demonstration.
-- Full production datasets are not included.
-- The credit risk project uses the Home Credit Default Risk dataset from Kaggle and stores its data notes in `credit-risk-ml-system/data/README.md`.
+Thank you for visiting my portfolio. For questions, collaboration opportunities, or to discuss how I can contribute to your team, please reach out via GitHub or the contact information available on my portfolio.
