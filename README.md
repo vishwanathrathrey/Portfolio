@@ -104,26 +104,25 @@ My skills have progressed from foundational data analysis to building complex, e
 
 ## Repository Structure
 
+```
 Portfolio/
 ├── Academic Projects/
-│ ├── Car-Price-Prediction/
-│ ├── CardioRisk-Prediction/
-│ ├── Ecommerce-Data-Management/
-│ ├── Flight-Delay-Analysis/
-│ ├── Lung-Cancer-Analysis/
-│ ├── NYC-Taxi-Data-Analysis/
-│ ├── Recipe-NER-CRF/
-│ ├── Traffic-Data-Analysis/
-│ └── README.md
+│   ├── Car-Price-Prediction/
+│   ├── CardioRisk-Prediction/
+│   ├── Ecommerce-Data-Management/
+│   ├── Flight-Delay-Analysis/
+│   ├── Lung-Cancer-Analysis/
+│   ├── NYC-Taxi-Data-Analysis/
+│   ├── Recipe-NER-CRF/
+│   ├── Traffic-Data-Analysis/
+│   └── README.md
 ├── Personal Projects/
-│ ├── AI-Code-Review/
-│ ├── Credit-Risk-ML-System/
-│ ├── Customer-Data-Pipeline/
-│ └── README.md
+│   ├── AI-Code-Review/
+│   ├── Credit-Risk-ML-System/
+│   ├── Customer-Data-Pipeline/
+│   └── README.md
 └── README.md
-
-
----
+```
 
 ## Project Highlights
 
