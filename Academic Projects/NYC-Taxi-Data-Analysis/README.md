@@ -107,10 +107,11 @@ Understanding the business context (e.g., what constitutes a reasonable trip far
 ```
 NYC-Taxi-Data-Analysis/
 ├── data/
-│ └── sample/ # Sample parquet files (full data excluded)
-├── NYC_Taxi_Analysis.ipynb # Main analysis notebook
-├── report.pdf # Comprehensive project report
-└── README.md # Project overview
+│   └── sample/
+├── Datasets and Dictionary-NYC/
+│   └── Datasets and Dictionary/
+├── EDA_NYC_Taxi_Analysis.ipynb
+└── README.md
 ```
 
 
