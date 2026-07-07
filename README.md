@@ -1,104 +1,67 @@
-# Python Data Projects Portfolio
+# Machine Learning, Data Engineering, and Generative AI Portfolio
 
-This repository contains data analysis, machine learning, and backend data pipeline projects.
+Welcome to my portfolio. This repository showcases my journey and project work as I transition from a traditional Software Engineering background into the fields of Machine Learning, Data Engineering, and Generative AI.
 
-## Repository Projects
+## About This Repository
 
-1. Car Price Prediction
-	- Folder: Car Price
-	- Focus: Regression modeling for car price estimation
+This collection includes a mix of academic coursework and personal projects.
 
-2. CardioRisk Prediction
-	- Folder: CardioRisk
-	- Focus: Cardiovascular disease risk classification
+*   **Academic Projects**: These demonstrate my foundational understanding of core machine learning concepts, including Exploratory Data Analysis (EDA), data cleaning, feature engineering, model building, and evaluation.
+*   **Personal Projects**: These are practical, hands-on implementations showcasing my skills in building end-to-end systems, including data engineering pipelines, API development, MLOps principles, and Generative AI applications.
 
-3. File Handling
-	- Folder: File Handling
-	- Focus: CSV processing and Python file operations
+### Key Concepts & Technologies
 
-4. Flight Data Analysis
-	- Folder: Flight Mini assignmrnt
-	- Focus: Exploratory data analysis of flight records
+| Category              | Skills & Concepts                                                                                             |
+| --------------------- | ------------------------------------------------------------------------------------------------------------- |
+| **Machine Learning**  | EDA, Data Cleaning, Feature Engineering, Feature Selection, Data Visualization, Classification, Regression, Model Evaluation, Hyperparameter Tuning |
+| **Data Engineering**  | ETL Pipelines, API Development, Docker, Data Modeling                                                         |
+| **Generative AI**     | LLM Integration, Prompt Engineering, AI-driven Code Analysis                                                  |
+| **Software & MLOps**  | FastAPI, Git, CI/CD, Model Deployment, System Design                                                          |
 
-5. Lung Cancer Analysis
-	- Folder: Lung Cancer Mini Assignment
-	- Focus: Patient health data exploration
+---
 
-6. NYC Taxi Analysis
-	- Folder: NYC Taxi Analysis
-	- Focus: EDA on NYC taxi trips
+## Projects
 
-7. Traffic Data ETL
-	- Folder: Traffic Data Analysis
-	- Focus: ETL and analysis of traffic collision data
+The projects are organized into two categories. For detailed information about each project, please see the `README.md` file inside its folder.
 
-8. Customer Data Pipeline
-	- Folder: customer-data-pipeline
-	- Focus: Containerized ingestion pipeline using Flask, FastAPI, and PostgreSQL
+### Personal Projects
 
-9. Credit Risk ML System
-	- Folder: credit-risk-ml-system
-	- Focus: End-to-end credit risk prediction system with PySpark ETL, model training, FastAPI, and a React dashboard
+These projects were built to solve practical problems and demonstrate my ability to design, build, and deploy data-driven applications.
 
-10. AI Code Review
-	- Folder: AI Code Review
-	- Focus: Automated AI-powered code analysis for GitHub pull requests
+| Project                 | Description                                                                                                                            |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **[AI Code Review](./Personal%20Projects/AI%20Code%20Review)**      | An automated code review system that uses a Large Language Model (LLM) to analyze pull requests, identify issues, and post comments.      |
+| **[Credit Risk ML System](./Personal%20Projects/credit-risk-ml-system)** | An end-to-end machine learning system that predicts credit risk. Includes a data pipeline, model training, and a REST API for predictions. |
+| **[Customer Data Pipeline](./Personal%20Projects/customer-data-pipeline)**| A data engineering project to build a robust ETL pipeline for processing customer data from multiple sources into a data warehouse.      |
 
-## What Is Inside Each Project
+### Academic Projects
 
-Notebook-based projects typically include:
+These projects were completed as part of my MSc coursework. They demonstrate my understanding of fundamental ML concepts and data analysis techniques.
 
-- A Jupyter notebook
-- A project-level README
-- Sample data under data/sample
-- Some projects use a full dataset under data/ instead of a sample file
+| Project                    | Description                                                                                             |
+| -------------------------- | ------------------------------------------------------------------------------------------------------- |
+| **[Car Price Prediction](./Academic%20Projects/Car%20Price)**   | A regression project to predict the price of used cars based on their features.                         |
+| **[CardioRisk Prediction](./Academic%20Projects/CardioRisk)**  | A classification project to predict the risk of cardiovascular disease based on patient health data.    |
+| **[File Handling](./Academic%20Projects/File%20Handling)** | Examples of file handling operations in Python. |
+| **[Flight Data Analysis](./Academic%20Projects/Flight%20Mini%20assignmrnt)**   | An exploratory data analysis (EDA) of flight data to uncover patterns and insights.                     |
+| **[Lung Cancer Analysis](./Academic%20Projects/Lung%20Cancer%20Mini%20Assignment)**   | An analysis of lung cancer patient data to identify key risk factors.                                   |
+| **[NYC Taxi Analysis](./Academic%20Projects/NYC%20Taxi%20Analysis)**      | An EDA of the NYC taxi dataset to analyze trip patterns and fare structures.                            |
+| **[Traffic Data Analysis](./Academic%20Projects/Traffic%20Data%20Analysis)**  | An ETL and data analysis project on traffic data to understand congestion patterns.                     |
 
-The backend pipeline project includes:
+---
 
-- Docker Compose setup
-- Service source code for mock API and pipeline API
-- Project-level README with API and run instructions
+## Learning Progression
 
-## Quick Start
+My skills have progressed from foundational data analysis to building complex, end-to-end AI systems. This path reflects a continuous effort to deepen my expertise and apply it to practical, real-world scenarios.
 
-### Notebook Projects
+1.  **Data Analysis & Visualization**: Began with analyzing datasets to extract insights and visualize patterns.
+2.  **Feature Engineering & Machine Learning**: Moved on to building and evaluating predictive models.
+3.  **Data Engineering & API Development**: Advanced to creating robust data pipelines and deploying models via APIs.
+4.  **MLOps Concepts**: Gained experience with containerization (Docker) and system design for ML.
+5.  **Generative AI**: Currently focused on leveraging Large Language Models to build intelligent applications.
 
-1. Open a terminal at the repository root.
-2. Launch Jupyter for a notebook, for example:
+Thank you for visiting my portfolio. I am actively seeking opportunities where I can apply my skills to solve challenging problems in AI and Data Engineering.
 
-```bash
-jupyter notebook "CardioRisk/CardioRisk_Prediction.ipynb"
-jupyter notebook "Car Price/CarPricePrediction.ipynb"
-```
-
-### Customer Data Pipeline
-
-1. Move to the project folder:
-
-```bash
-cd customer-data-pipeline
-```
-
-2. Start services:
-
-```bash
-docker-compose up -d --build
-```
-
-3. Check health:
-
-```bash
-curl http://localhost:5000/api/health
-curl http://localhost:8000/api/health
-```
-
-### Credit Risk ML System
-
-1. Move to the project folder:
-
-```bash
-cd credit-risk-ml-system
-```
 
 2. Start the API and frontend locally:
 
