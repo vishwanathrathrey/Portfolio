@@ -77,7 +77,7 @@ My skills have progressed from foundational data analysis to building complex, e
 |----------|--------------|
 | **Languages** | Python 3.x, TypeScript, JavaScript |
 | **ML & Data** | PySpark, Scikit-learn, Pandas, NumPy, CRFsuite, spaCy |
-| **AI & LLMs** | OpenAI API, Prompt Engineering, LLM Integration |
+| **AI & LLMs** | Ollama, Prompt Engineering, LLM Integration |
 | **Backend** | FastAPI, Flask, REST APIs, SMTP |
 | **Frontend** | React, Vite, HTML, CSS |
 | **Databases** | PostgreSQL |
@@ -99,6 +99,22 @@ My skills have progressed from foundational data analysis to building complex, e
 | **Software Engineering** | API Design, Microservices, Docker Containerization, Pipeline Architecture |
 | **Full-Stack Development** | FastAPI Backend, React Frontend, Frontend-Backend Integration |
 | **AI Integration** | LLM Integration, Prompt Engineering, AI Output Normalization |
+
+---
+
+## Project Highlights
+
+### Academic Projects
+- **PySpark Analytics**: Multiple projects (Flight Delay, Lung Cancer) demonstrate big data processing capabilities on 890,000+ record datasets
+- **NLP Implementation**: Recipe NER-CRF project showcases Conditional Random Fields with comprehensive feature engineering (lexical, syntactic, contextual)
+- **Multi-format Data Management**: E-commerce project demonstrates professional-grade file I/O across CSV, JSON, and TXT formats
+- **End-to-End ML**: Car Price and CardioRisk projects show complete regression and classification workflows with Scikit-learn
+
+### Personal Projects
+- **AI Integration**: Code Review System demonstrates LLM integration with output normalization, evidence validation, and security scanning
+- **Full-Stack ML**: Credit Risk system combines PySpark preprocessing, Scikit-learn training, FastAPI serving, and React dashboard
+- **Microservices Architecture**: Customer Data Pipeline uses Flask, FastAPI, and Docker for ETL orchestration
+- **Containerization**: All personal projects are Dockerized for consistent deployment
 
 ---
 
@@ -124,34 +140,16 @@ Portfolio/
 └── README.md
 ```
 
-## Project Highlights
 
-### Academic Projects
-- **PySpark Analytics**: Multiple projects (Flight Delay, Lung Cancer) demonstrate big data processing capabilities on 890,000+ record datasets
-- **NLP Implementation**: Recipe NER-CRF project showcases Conditional Random Fields with comprehensive feature engineering (lexical, syntactic, contextual)
-- **Multi-format Data Management**: E-commerce project demonstrates professional-grade file I/O across CSV, JSON, and TXT formats
-- **End-to-End ML**: Car Price and CardioRisk projects show complete regression and classification workflows with Scikit-learn
+## Recruiter Takeaways
 
-### Personal Projects
-- **AI Integration**: Code Review System demonstrates LLM integration with output normalization, evidence validation, and security scanning
-- **Full-Stack ML**: Credit Risk system combines PySpark preprocessing, Scikit-learn training, FastAPI serving, and React dashboard
-- **Microservices Architecture**: Customer Data Pipeline uses Flask, FastAPI, and Docker for ETL orchestration
-- **Containerization**: All personal projects are Dockerized for consistent deployment
+This portfolio demonstrates experience across:
 
----
-
-## About Me
-
-I am a professional transitioning from Software Engineering to Machine Learning and Data Engineering. This portfolio represents my journey in building practical, end-to-end AI systems and demonstrates:
-
-- **Foundational ML Knowledge**: Understanding of algorithms, evaluation, and feature engineering
-- **Practical Implementation**: Ability to build complete, deployable systems
-- **Full-Stack Capability**: Experience with both backend APIs and frontend interfaces
-- **Big Data Skills**: Proficiency with PySpark for large-scale processing
-- **AI Integration**: Practical experience with LLMs and Generative AI
-
-I am actively seeking opportunities where I can apply these skills to solve challenging problems in AI and Data Engineering.
-
+- Machine Learning workflows including feature engineering, model evaluation, and hyperparameter tuning
+- Data Engineering pipelines using PySpark, PostgreSQL, Docker, and REST APIs
+- Generative AI applications integrating Large Language Models into software workflows
+- End-to-end solution development from data ingestion and model training to deployment and user-facing applications
+- Production software engineering practices including API design, containerization, testing, and modular architecture
 ---
 
 ## Contact
