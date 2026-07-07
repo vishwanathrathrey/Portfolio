@@ -1,126 +1,34 @@
 # Academic Projects (MSc Coursework)
 
-This directory contains projects completed as part of my **MSc in Machine Learning & Artificial Intelligence**. These projects demonstrate practical application of machine learning, big data processing, natural language processing, statistics, feature engineering, data visualization, and predictive modeling concepts.
+## Overview
 
-Each project folder contains a dedicated `README.md` with detailed information about the specific problem, methodology, results, and key learnings.
+This directory contains projects completed as part of my **MSc in Machine Learning & Artificial Intelligence**. These projects document my foundational journey into data science, demonstrating the practical application of core machine learning, statistical analysis, and big data processing concepts. They represent the theoretical and analytical bedrock upon which my practical engineering skills are built.
 
-## Project Portfolio
+## Skills Developed
 
-### [Car Price Prediction](./Car-Price-Prediction/)
-A regression modeling project to estimate used car prices using machine learning techniques. Focuses on feature engineering, model selection, and hyperparameter tuning to achieve accurate price predictions.
+Across these projects, I gained practical experience in:
 
-### [CardioRisk Prediction](./CardioRisk-Prediction/)
-A classification project to predict cardiovascular disease risk using patient health data. Implements data preprocessing, feature selection, and multiple classification algorithms with performance comparison.
+*   **Exploratory Data Analysis (EDA):** Analyzing datasets to uncover patterns, identify anomalies, and inform feature engineering strategies using visualization libraries like Matplotlib and Seaborn.
+*   **Feature Engineering:** Creating, transforming, and selecting features to improve model performance, including techniques like one-hot encoding, log transformation, and creating domain-specific variables (e.g., BMI).
+*   **Regression & Classification Modeling:** Implementing and evaluating a range of supervised learning models, from regularized linear models (Ridge, Lasso) to tree-based ensembles (Random Forest).
+*   **Model Evaluation & Tuning:** Assessing model performance using metrics like R-squared, MAE (for regression), and Precision, Recall, F1-score, and ROC-AUC (for classification), along with hyperparameter optimization.
+*   **Natural Language Processing (NLP):** Building an NER pipeline using Conditional Random Fields (CRF), including tokenization, feature extraction, and class weighting to handle imbalanced data.
+*   **Distributed Data Processing:** Leveraging Apache PySpark to perform large-scale data cleaning, transformation, and aggregation on structured and semi-structured datasets.
+*   **Data Visualization:** Communicating analytical findings and model results through clear and informative charts, graphs, and heatmaps.
 
-### [E-commerce Data Management](./Ecommerce-Data-Management/)
-A data engineering project demonstrating multi-format file handling (CSV, JSON, TXT) for product information management. Implements CRUD operations and data persistence using Python's standard library.
+## Academic Project List
 
-### [Flight Delay Analysis](./Flight-Delay-Analysis/)
-A big data analytics project using PySpark to analyze domestic flight delay patterns. Performs data cleaning, aggregation, and statistical analysis on large-scale flight operational data.
+| Project | Key Concepts | Technologies |
+|---|---|---|
+| **[Car Price Prediction](./Car-Price-Prediction/)** | Regression, Regularization (Ridge & Lasso), Feature Engineering | Scikit-learn, Pandas |
+| **[CardioRisk Prediction](./CardioRisk-Prediction/)** | Classification, Hyperparameter Tuning, Model Comparison | Scikit-learn, Pandas |
+| **[E-commerce Data Management](./Ecommerce-Data-Management/)** | Data Engineering, File I/O (CSV, JSON, TXT), CRUD Operations | Python |
+| **[Flight Delay Analysis](./Flight-Delay-Analysis/)** | Big Data Analytics, Data Aggregation, Time-Series Analysis | PySpark |
+| **[Lung Cancer Analysis](./Lung-Cancer-Analysis/)** | Healthcare Analytics, Data Cleaning, Survival Analysis | PySpark |
+| **[NYC Taxi Data Analysis](./NYC-Taxi-Data-Analysis/)** | Geospatial Analysis, Temporal Analysis, Outlier Detection | GeoPandas, Pandas |
+| **[Recipe NER-CRF](./Recipe-NER-CRF/)** | NLP, Named Entity Recognition (NER), Conditional Random Fields (CRF) | Scikit-learn, Joblib |
+| **[Traffic Data Analysis](./Traffic-Data-Analysis/)** | Big Data ETL, Data Cleaning, Risk Factor Analysis | PySpark, Plotly |
 
-### [Lung Cancer Analysis](./Lung-Cancer-Analysis/)
-A healthcare analytics project using PySpark to examine lung cancer patient data. Analyzes treatment durations, survival rates by smoking status, and geographical variations in cancer staging.
+## Learning Outcomes
 
-### [NYC Taxi Data Analysis](./NYC-Taxi-Data-Analysis/)
-An exploratory data analysis project on NYC taxi trip data. Investigates trip patterns, peak hours, fare distributions, and geographical trends using data visualization techniques.
-
-### [Recipe NER-CRF](./Recipe-NER-CRF/)
-A Natural Language Processing project implementing Named Entity Recognition (NER) using Conditional Random Fields (CRF) to extract ingredients, quantities, and units from recipe texts. Features comprehensive feature engineering and class weighting.
-
-### [Traffic Data Analysis](./Traffic-Data-Analysis/)
-An ETL and analytics project on traffic collision data. Performs data extraction, transformation, and analysis to identify accident patterns, high-risk locations, and contributing factors.
-
-## Key Skills Demonstrated
-
-| Domain | Skills |
-|--------|--------|
-| **Machine Learning** | Regression, Classification, Feature Engineering, Model Evaluation, Hyperparameter Tuning |
-| **Big Data** | PySpark, Distributed Computing, Data Aggregation, Large-Scale Processing |
-| **Natural Language Processing** | Named Entity Recognition, Conditional Random Fields, Feature Extraction, Text Processing |
-| **Data Engineering** | Multi-format File I/O, Data Serialization, ETL Pipelines, Data Persistence |
-| **Data Analysis** | Exploratory Data Analysis, Statistical Analysis, Data Visualization, Pattern Discovery |
-| **Programming** | Python, Pandas, Scikit-learn, PySpark, Jupyter Notebooks |
-
-## Project Descriptions
-
-### Machine Learning Projects
-- **Car Price Prediction**: Regression modeling using various algorithms to predict used car prices based on vehicle specifications and market data.
-- **CardioRisk Prediction**: Classification modeling to assess cardiovascular disease risk using patient health indicators.
-
-### Big Data Analytics Projects
-- **Flight Delay Analysis**: PySpark-based analysis of flight performance metrics including delay patterns and operational efficiency.
-- **Lung Cancer Analysis**: Healthcare analytics using PySpark to examine treatment patterns, survival rates, and geographical variations.
-- **NYC Taxi Data Analysis**: Exploratory analysis of taxi trip patterns using data visualization and statistical methods.
-- **Traffic Data Analysis**: ETL and analytics pipeline for traffic collision data to identify patterns and high-risk areas.
-
-### NLP & Data Engineering Projects
-- **Recipe NER-CRF**: Named Entity Recognition using Conditional Random Fields for recipe ingredient extraction with comprehensive feature engineering.
-- **E-commerce Data Management**: File I/O and data persistence system handling CSV, JSON, and TXT formats with CRUD operations.
-
-## Repository Structure
-```
-Academic-Projects/
-├── Car-Price-Prediction/
-│ ├── notebook.ipynb
-│ └── README.md
-├── CardioRisk-Prediction/
-│ ├── notebook.ipynb
-│ └── README.md
-├── Ecommerce-Data-Management/
-│ ├── File_Handling.ipynb
-│ └── README.md
-├── Flight-Delay-Analysis/
-│ ├── data/
-│ │ └── sample/
-│ ├── Flight_Data_Mini_Assignment_2.ipynb
-│ └── README.md
-├── Lung-Cancer-Analysis/
-│ ├── data/
-│ │ └── sample/
-│ ├── Lung_Cancer_Mini_Assignment_1.ipynb
-│ └── README.md
-├── NYC-Taxi-Data-Analysis/
-│ ├── notebook.ipynb
-│ └── README.md
-├── Recipe-NER-CRF/
-│ ├── data/
-│ │ └── sample/
-│ ├── notebook.ipynb
-│ └── README.md
-├── Traffic-Data-Analysis/
-│ ├── notebook.ipynb
-│ └── README.md
-└── README.md
-```
-
-## Technology Stack
-
-| Category | Technologies |
-|----------|--------------|
-| **Programming** | Python 3.x |
-| **Data Processing** | Pandas, NumPy, PySpark |
-| **Machine Learning** | Scikit-learn, CRFsuite |
-| **NLP** | spaCy, NLTK |
-| **Visualization** | Matplotlib, Seaborn |
-| **Development** | Jupyter Notebook, Google Colab |
-| **Data Formats** | CSV, JSON, TXT |
-
-## Notes
-
-- Each project folder contains a detailed README with specific objectives, methodology, results, and key learnings
-- Full datasets are excluded from the repository; sample data is provided where applicable
-- Projects were completed as part of the MSc curriculum, emphasizing both theoretical understanding and practical implementation
-- Code is organized for clarity and reproducibility
-
-## About
-
-This portfolio represents practical coursework completed during my MSc in Machine Learning & Artificial Intelligence. Each project addresses a real-world problem using appropriate data science and machine learning techniques, demonstrating the ability to:
-- Frame business problems as analytical questions
-- Clean and preprocess real-world data
-- Apply appropriate algorithms and techniques
-- Evaluate model performance critically
-- Communicate findings effectively
-
----
-
-*This portfolio is maintained as part of my professional development in Data Science and Machine Learning.*
+This coursework provided a comprehensive, hands-on education in the entire machine learning lifecycle. I progressed from fundamental data manipulation and analysis to building and evaluating complex predictive models. The projects solidified my understanding of how to approach different data modalities (tabular, text, big data) and select the appropriate tools and techniques to extract meaningful insights. This academic foundation was critical in preparing me to build more complex, production-oriented systems.

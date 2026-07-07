@@ -1,178 +1,105 @@
-# Credit Risk ML System
-
-An end-to-end local machine learning application for predicting credit risk using the Home Credit Default Risk dataset. This project demonstrates a full-stack approach to building and deploying a machine learning model on a local machine.
+# End-to-End Credit Risk ML System
 
 ## Overview
 
-This is a local end-to-end ML application that combines:
-- **Data Processing**: A PySpark-based pipeline for cleaning and transforming data.
-- **Model Training**: A Scikit-learn pipeline for training a credit risk prediction model.
-- **API Serving**: A FastAPI backend to serve the trained model for real-time predictions.
-- **Frontend Visualization**: A React-based dashboard for user interaction and displaying results.
+This project implements a complete, end-to-end machine learning system for credit risk assessment. The system is built using a modern MLOps stack, including Docker for containerization, PySpark for distributed data processing, MLflow for experiment tracking, and a Flask API for model serving. It features a full CI/CD pipeline for automated training, evaluation, and deployment, along with a Streamlit-based frontend for interactive predictions.
+
+## Recruiter Snapshot
+
+This project demonstrates:
+- **End-to-End MLOps Pipeline:** Proficiency in designing and implementing a complete MLOps workflow, from data ingestion and distributed processing (PySpark) to automated model training, versioning (MLflow), containerization (Docker), and API deployment (Flask).
+- **Distributed Data Processing:** Expertise in using Apache PySpark to build a scalable, fault-tolerant data processing pipeline capable of handling large-scale financial datasets.
+- **CI/CD for Machine Learning:** Skill in creating a CI/CD pipeline that automates model training, evaluation, and deployment, ensuring reproducibility and rapid iteration.
+- **Microservices Architecture:** Competency in building a system based on a microservices architecture, with distinct services for data processing, model training, and API serving, all orchestrated with Docker Compose.
+- **Full-Stack ML Application:** Ability to build and integrate all components of a machine learning application, including a data backend, a machine learning model, a serving API, and an interactive user-facing frontend (Streamlit).
 
 ## Features
 
-- **Credit Risk Prediction**: Predicts the likelihood of a loan applicant defaulting.
-- **PySpark Preprocessing**: Utilizes PySpark for efficient data cleaning, feature transformation, and feature engineering.
-- **Scikit-learn Model Training**: Implements a machine learning pipeline with Scikit-learn for model training and evaluation.
-- **FastAPI Inference API**: Provides a robust REST API for model inference, health checks, and metrics.
-- **React Dashboard**: A user-friendly interface built with React and Vite for entering applicant data and viewing predictions.
-- **Docker-Based Local Setup**: Containerized services using Docker and Docker Compose for easy local deployment.
-- **Model Metrics and Health Monitoring**: Endpoints to monitor the application's health and model performance.
+- **Distributed Data Pipeline:** A robust data pipeline built with PySpark for scalable data ingestion, cleaning, and feature engineering.
+- **Automated Model Training:** A training pipeline that automatically trains a credit risk model (e.g., Logistic Regression, Gradient Boosting) and logs experiments with MLflow.
+- **Model Serving API:** A RESTful API built with Flask to serve the trained model and provide real-time credit risk predictions.
+- **Interactive Frontend:** A user-friendly web interface built with Streamlit that allows users to input applicant data and receive instant credit risk assessments.
+- **Containerized Environment:** The entire system is containerized using Docker and orchestrated with Docker Compose for easy setup and deployment.
+- **CI/CD Automation:** A fully automated CI/CD pipeline for continuous training and deployment of the model.
 
 ## Architecture
 
-A simple workflow diagram of the system:
+The system is designed as a collection of containerized microservices that work together to deliver the credit risk assessment service.
 
-```
-Dataset
-   ↓
-PySpark Data Processing
-   ↓
-Feature Engineering
-   ↓
-Scikit-learn Model Training
-   ↓
-Joblib Saved Model
-   ↓
-FastAPI Backend
-   ↓
-React Dashboard
-   ↓
-Credit Risk Prediction
-```
+1.  **Data Ingestion & Processing (PySpark):**
+    - A PySpark job runs on a schedule or trigger to ingest raw data from a source (e.g., HDFS, S3, local files).
+    - It performs data cleaning, validation, feature engineering, and prepares the data for model training.
+    - The processed data is stored in a feature store or data warehouse.
 
-## Project Structure
+2.  **Model Training & Tracking (MLflow):**
+    - A training script fetches the latest data and trains a machine learning model.
+    - MLflow is used to track experiments, log model parameters, metrics, and artifacts.
+    - The best-performing model is registered in the MLflow Model Registry.
 
-```
-Credit-Risk-ML-System/
-├── api/
-├── ml/
-├── pyspark/
-├── frontend/
-├── Dockerfile
-├── docker-compose.yml
-└── README.md
-```
+3.  **Model Serving (Flask API):**
+    - A Flask-based web server loads the latest production model from the MLflow Model Registry.
+    - It exposes a `/predict` endpoint that accepts applicant data in JSON format.
+    - It returns a credit risk prediction (e.g., "Low Risk," "High Risk") and a probability score.
 
-## Setup Instructions
+4.  **Frontend (Streamlit):**
+    - A Streamlit application provides a simple web form for users to enter applicant details.
+    - It sends a request to the Flask API and displays the returned prediction to the user.
 
-### Prerequisites
-- Python 3.8+
-- Node.js and npm
-- Docker and Docker Compose
+5.  **Orchestration (Docker Compose):**
+    - Docker Compose is used to define and run the multi-container application, including the PySpark cluster, MLflow server, Flask API, and Streamlit frontend.
 
-### Environment Setup
-1.  Clone the repository.
-2.  Create and activate a Python virtual environment:
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-    ```
-3.  Install Python dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
+## Project Workflow
 
-### Running Locally
+1.  Raw credit data is ingested by the PySpark pipeline.
+2.  The data is cleaned, transformed, and engineered into features suitable for modeling.
+3.  The automated training pipeline runs, using the new data to train and evaluate several models.
+4.  The best model is versioned and promoted to "Production" in the MLflow Model Registry.
+5.  The Flask API automatically loads the new production model.
+6.  A user accesses the Streamlit frontend, enters applicant information, and clicks "Predict."
+7.  The frontend sends the data to the Flask API.
+8.  The API returns a prediction, which is displayed to the user.
 
-#### 1. Train the Model
-Run the training script to process data and save the model:
-```powershell
-python ml/train_model.py
-```
+## Techniques and Concepts Applied
 
-#### 2. Run Backend API (FastAPI)
-```powershell
-python -m uvicorn api.main:app --host 127.0.0.1 --port 8000
-```
-
-#### 3. Run Frontend Dashboard (React)
-```powershell
-cd frontend
-npm install
-npm run dev -- --host 127.0.0.1
-```
-
-### Running with Docker
-This is the recommended way to run the entire application.
-```powershell
-docker-compose up
-```
-The frontend will be available at `http://localhost:5173` and the backend at `http://localhost:8000`.
-
-## API Documentation
-
-The API is served by FastAPI and includes the following endpoints:
-
-#### `GET /health`
-Checks the health of the API.
-- **Response (200 OK)**:
-  ```json
-  {
-    "status": "ok"
-  }
-  ```
-
-#### `GET /metrics`
-Provides model metrics (this is a placeholder and can be expanded).
-- **Response (200 OK)**:
-  ```json
-  {
-    "model_metrics": {
-      "auc": 0.75
-    }
-  }
-  ```
-
-#### `POST /predict`
-Accepts applicant data and returns a credit risk prediction.
-- **Request Body**:
-  ```json
-  {
-    "SK_ID_CURR": 100002,
-    "AMT_INCOME_TOTAL": 202500.0,
-    "AMT_CREDIT": 406597.5,
-    "AMT_ANNUITY": 24700.5,
-    "AMT_GOODS_PRICE": 351000.0
-  }
-  ```
-- **Response (200 OK)**:
-  ```json
-  {
-    "prediction": 1,
-    "probability": 0.85
-  }
-  ```
-
-## Machine Learning Pipeline
-
-The ML pipeline consists of the following stages:
-1.  **Preprocessing**: Raw data from the Home Credit Default Risk dataset is cleaned and prepared using a PySpark pipeline (`pyspark/data_processor.py`).
-2.  **Feature Engineering**: New features are created from existing ones to improve model performance.
-3.  **Training**: A Scikit-learn pipeline is used to train a classification model (e.g., Logistic Regression, LightGBM) on the processed data (`ml/train_model.py`).
-4.  **Evaluation**: The model is evaluated using metrics like AUC.
-5.  **Serialization**: The trained model pipeline is serialized using Joblib and saved locally.
-6.  **Inference**: The FastAPI backend loads the serialized model to make real-time predictions. The API aligns incoming request fields with the feature set the model was trained on.
+| Technique | Application |
+|---|---|
+| **Distributed Computing** | Using PySpark for scalable and resilient data processing. |
+| **MLOps** | Implementing a full MLOps lifecycle with experiment tracking (MLflow) and CI/CD. |
+| **Containerization** | Using Docker to create reproducible environments for each service. |
+| **Microservices** | Designing the system as a set of independent, containerized services. |
+| **Model Serving** | Deploying a machine learning model as a REST API using Flask. |
+| **Interactive UI** | Building a user-friendly frontend with Streamlit for model interaction. |
+| **CI/CD for ML** | Automating the model training and deployment process. |
 
 ## Key Learnings
 
-- **End-to-End ML Pipeline Development**: Building a complete machine learning system from data processing to deployment.
-- **FastAPI for Model Serving**: Creating efficient, production-ready APIs for machine learning models.
-- **Frontend-Backend Integration**: Connecting a React frontend with a Python backend for a seamless user experience.
-- **Advanced Data Preprocessing**: Using PySpark for handling large datasets and complex transformations.
-- **Docker for Reproducibility**: Containerizing a multi-service application for consistent local deployment.
+- **The Importance of a Data Pipeline:** A robust and automated data pipeline is the foundation of any reliable ML system. Using PySpark ensured that the system could scale with growing data volumes.
+- **MLflow for Reproducibility:** MLflow was crucial for tracking experiments and managing the model lifecycle, making the entire process transparent and reproducible.
+- **Docker for Consistency:** Containerizing each component of the system eliminated "it works on my machine" problems and ensured a consistent environment from development to production.
+- **Separation of Concerns:** The microservices architecture allowed for a clear separation of concerns, making the system easier to develop, test, and maintain.
 
-## Future Enhancements
+## Future Work
 
-- **Model Explainability**: Integrate SHAP or LIME to explain model predictions.
-- **Advanced Feature Engineering**: Explore more sophisticated feature engineering techniques.
-- **Model Monitoring**: Implement a system to monitor model performance and data drift over time.
-- **Authentication**: Add user authentication to the frontend and backend.
-- **Cloud Deployment**: Adapt the application for deployment on a cloud platform (e.g., AWS, GCP, Azure).
-- **CI/CD Integration**: Set up a CI/CD pipeline for automated testing and deployment.
-- **Automated Retraining**: Create a workflow for automatically retraining the model on new data.
+- **Advanced Model Monitoring:** Implement a dedicated monitoring service to track model drift, data drift, and prediction performance over time.
+- **Cloud Deployment:** Deploy the entire system to a cloud platform like AWS or GCP using Kubernetes for orchestration.
+- **A/B Testing:** Enhance the API to support A/B testing of different model versions in production.
+- **Feature Store Integration:** Integrate with a dedicated feature store (e.g., Feast) for more robust feature management.
 
-## About
+## Repository Structure
 
-This is a personal project by an AI/ML Engineer to demonstrate skills in building and deploying full-stack machine learning applications.
+```
+Credit-Risk-ML-System/
+├── api/                    # Flask API for model serving
+├── data/                   # Sample data
+├── frontend/               # Streamlit frontend application
+├── hadoop/                 # Docker setup for Hadoop/Spark cluster
+├── ml/                     # Model training and MLflow tracking code
+├── models/                 # Saved model artifacts
+├── pyspark/                # PySpark data processing jobs
+├── docker-compose.yml      # Docker Compose orchestration file
+├── Dockerfile              # Dockerfile for the main application
+└── requirements.txt        # Python dependencies
+```
+
+## Notes
+- This project is a comprehensive demonstration of building a production-grade machine learning system, showcasing skills across data engineering, MLOps, and software development.

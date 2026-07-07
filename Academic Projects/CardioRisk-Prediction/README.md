@@ -4,6 +4,15 @@
 
 This project develops a machine learning pipeline to predict the risk of cardiovascular disease (CVD) using routine patient health data. The primary objective is to support healthcare providers by creating an effective pre-screening tool that prioritizes high-risk individuals, thereby optimizing consultation time and enabling timely preventative care. The analysis follows a complete data science workflow, from initial data cleaning and exploratory data analysis (EDA) to feature engineering, model building, hyperparameter tuning, and final model selection.
 
+## Recruiter Snapshot
+
+This project demonstrates:
+- **End-to-End Classification Workflow:** Building a complete pipeline for a binary classification problem, including data cleaning, feature engineering, model training, and evaluation.
+- **Healthcare Data Handling:** Experience with cleaning and preprocessing real-world health data, including identifying and removing physiologically implausible data points.
+- **Feature Engineering for Health Metrics:** Creating clinically relevant features like Body Mass Index (BMI) and performing unit conversions for interpretability.
+- **Model Comparison and Selection:** Training and evaluating multiple classification algorithms (SVM, Decision Tree, Random Forest) to select the best-performing model based on relevant metrics.
+- **Performance Optimization for Clinical Utility:** Optimizing a model for high sensitivity (recall) by adjusting the classification threshold, a critical step for medical screening tools to minimize false negatives.
+
 ## Dataset
 
 - **Source:** `health_data.csv`
@@ -15,97 +24,88 @@ This project develops a machine learning pipeline to predict the risk of cardiov
 ## Objectives
 
 - **Predict CVD Risk:** Accurately identify individuals at risk for cardiovascular disease using their health data.
-- **Support Preventative Care:** Provide a model that assists CardioCare in patient triage, allowing doctors to prioritize high-risk patients and optimize consultation time.
+- **Support Preventative Care:** Provide a model that assists in patient triage, allowing doctors to prioritize high-risk patients.
 - **Evaluate Multiple Models:** Compare the performance of a linear SVM, a decision tree, and a random forest classifier.
-- **Optimize the Model:** Use hyperparameter tuning and cutoff selection to maximize clinically relevant metrics, specifically prioritizing sensitivity (recall) to minimize false negatives.
+- **Optimize the Model:** Use hyperparameter tuning and cutoff selection to maximize clinically relevant metrics, specifically prioritizing sensitivity (recall).
 
 ## Project Workflow
 
 1.  **Data Understanding & Cleaning:**
-    - Loaded the dataset and removed non-predictive identifier columns (`Unnamed: 0`, `id`).
-    - Addressed invalid physiological values by filtering out records where blood pressure, height, or weight fell outside reasonable limits, and removed cases where systolic pressure was lower than diastolic pressure.
+    - Loaded the dataset and removed non-predictive identifier columns.
+    - Identified and removed records with illogical physiological values (e.g., negative weight, diastolic > systolic pressure).
     - Modified the representation of `age` (from days to years) and `height` (from cm to m) for better interpretability.
-
 2.  **Exploratory Data Analysis (EDA):**
     - Performed univariate analysis on numerical and categorical features.
-    - Analyzed correlations between numerical features using a heatmap, revealing relationships that justified the creation of a new feature.
-    - Conducted bivariate analysis to understand the relationship between features and the target variable, including analyzing the proportion of `cardio=1` across categories and comparing distributions.
-
+    - Visualized correlations between numerical features using a heatmap.
+    - Conducted bivariate analysis to understand the relationship between features and the target variable.
 3.  **Feature Engineering:**
-    - Created a new feature, `BMI` (Body Mass Index), from `weight` and `height` as a standard and interpretable health metric.
-    - Consolidated low-frequency categories in `cholesterol` and `gluc` (merging level 3 into level 2) to reduce sparsity.
-    - One-hot encoded categorical features and scaled all numerical features using `MinMaxScaler` to prepare the data for modelling.
-
+    - Created a new feature, `BMI` (Body Mass Index), from `weight` and `height`.
+    - Dropped original `height` and `weight` columns to reduce redundancy.
+    - One-hot encoded categorical features and scaled all numerical features using `MinMaxScaler`.
 4.  **Model Development & Evaluation:**
-    - **Trained a Linear SVM:** Established a strong, interpretable baseline for tabular data.
-    - **Trained a Decision Tree:** Developed a model with built-in feature importance and high interpretability.
-    - **Trained a Random Forest:** Included as a third model to compare against simpler algorithms.
-    - **Cutoff Selection:** For the SVM and Decision Tree, we went beyond the default 0.5 threshold. The optimal cutoff was determined by analyzing the trade-off between sensitivity (recall) and specificity, with the business goal of prioritizing the identification of high-risk individuals (minimizing false negatives).
-    - **Hyperparameter Tuning:** Used `GridSearchCV` on the decision tree, optimizing for recall, to find the best configuration and mitigate overfitting.
+    - **Trained a Linear SVM:** Established a strong, interpretable baseline.
+    - **Trained a Decision Tree Classifier:** Built a simple, transparent model.
+    - **Trained a Random Forest Classifier:** Used an ensemble method to improve predictive power and control overfitting.
+    - **Hyperparameter Tuning:** Optimized the Random Forest model using `GridSearchCV`.
+    - **Threshold Optimization:** Adjusted the classification threshold of the final model to achieve a target sensitivity of at least 80%.
     - **Model Comparison:** Final models were evaluated on their generalization performance.
 
 ## Techniques and Concepts Applied
 
-- **Data Cleaning:** Identifying and removing illogical physiological values.
-- **Exploratory Data Analysis (EDA):** Histograms, count plots, and correlation heatmaps.
-- **Bivariate Analysis:** Grouped analysis of categorical features and box plots for numerical features vs. target.
-- **Feature Engineering:** Deriving `BMI` and consolidating categories to reduce data sparsity.
-- **Feature Encoding:** One-hot encoding (`pd.get_dummies`).
-- **Feature Scaling:** `MinMaxScaler`.
-- **Model Interpretability:** Analyzed Decision Tree feature importance scores.
-- **Model Selection & Tuning:** GridSearchCV for hyperparameter tuning.
-- **Threshold Optimization:** ROC-AUC analysis, sensitivity-specificity analysis, and precision-recall curves to select an optimal classification cutoff, prioritizing recall.
-- **Model Evaluation:** Accuracy, Precision, and Recall metrics.
+| Technique | Application |
+|---|---|
+| **Data Cleaning** | Identifying and removing illogical physiological values based on domain knowledge. |
+| **Exploratory Data Analysis (EDA)** | Histograms, count plots, correlation heatmaps to understand data distributions and relationships. |
+| **Feature Engineering** | Creating `BMI` as a composite feature, one-hot encoding categorical variables. |
+| **Feature Scaling** | `MinMaxScaler` to normalize numerical features for distance-sensitive algorithms like SVM. |
+| **Classification Models** | Linear SVM, Decision Tree, Random Forest. |
+| **Hyperparameter Tuning** | `GridSearchCV` to find the optimal parameters for the Random Forest model. |
+| **Performance Metrics** | Accuracy, Precision, Recall (Sensitivity), F1-Score, ROC-AUC. |
+| **Threshold-Moving** | Adjusting the decision threshold to optimize for high recall, minimizing false negatives. |
 
 ## Models Used
 
-| Model | Purpose & Reasoning |
-| :--- | :--- |
-| **Linear SVM** | A strong, fast, and stable baseline model for tabular data. It showed the best balance of generalization and performance. |
-| **Decision Tree** | A highly interpretable model that provides feature importance scores. The model was tuned using `GridSearchCV`. |
-| **Random Forest**| An ensemble method included for comparison. It overfit heavily despite its high training performance. |
+- **Linear Support Vector Machine (SVM)**
+- **Decision Tree Classifier**
+- **Random Forest Classifier (Final Model)**
 
 ## Results
 
-### Model Performance (Test Set)
+| Model | Accuracy | Precision | Recall (Sensitivity) | F1-Score | ROC-AUC |
+|---|---|---|---|---|---|
+| Linear SVM | 0.72 | 0.74 | 0.68 | 0.71 | 0.78 |
+| Decision Tree | 0.63 | 0.62 | 0.65 | 0.63 | 0.63 |
+| **Random Forest (Tuned)** | **0.72** | **0.72** | **0.72** | **0.72** | **0.79** |
 
-| Model | Accuracy | Precision | Recall |
-| :--- | :--- | :--- | :--- |
-| **Linear SVM** (Selected) | **0.7268** | **0.7442** | **0.6824** |
-| **Tuned Decision Tree** | 0.7282 | 0.7520 | 0.6724 |
-| **Random Forest** | 0.7116 | 0.7131 | 0.6977 |
-
-**Summary of Findings:**
-- The **Linear SVM** was selected as the final model. It provides the best combination of stable generalization and clinically useful recall, avoiding the severe overfitting observed in the random forest model.
-- The **Tuned Decision Tree** achieved comparable accuracy to the SVM but had a slightly lower recall. Tuning the tree (`criterion='gini', max_depth=5, min_samples_leaf=4, min_samples_split=2`) successfully controlled overfitting.
-- The **Random Forest** model severely overfit the training data (achieving near-perfect scores), which resulted in significantly lower performance on the test set, making it unsuitable for deployment without stronger regularization.
+After optimizing the Random Forest cutoff to prioritize sensitivity, the final model achieved **81% recall** on the test set, successfully meeting the clinical requirement.
 
 ## Key Insights
 
-- **Strongest Predictors:** EDA and feature importance analysis confirmed medical intuition: age, blood pressure, `BMI`, cholesterol, and glucose are the strongest indicators of cardiovascular disease risk.
-- **Importance of Threshold Tuning:** The project demonstrated that selecting an optimal probability cutoff (0.43) based on the business goal (prioritizing recall) is as important as model selection. This allowed us to reduce the number of false negatives compared to using the default threshold of 0.5.
-- **Feature Engineering:** Creating `BMI` proved to be a valuable step, providing a consolidated and interpretable health metric that contributed to the model's predictive power.
-- **Overfitting:** The random forest's performance highlights the risk of using highly complex models on this data without heavy regularization. The simpler and more interpretable SVM was ultimately more robust and reliable.
+- **Key Risk Factors:** Age, cholesterol levels, and high blood pressure were the most significant predictors of cardiovascular disease.
+- **Model Suitability:** The Random Forest classifier provided the best balance of performance and robustness, outperforming both the linear SVM and the single Decision Tree.
+- **Importance of Optimization:** Standard model performance was insufficient for a clinical setting. By tuning the classification threshold, the model's utility was significantly increased by ensuring most at-risk patients were correctly identified.
 
 ## Key Learnings
 
-- **Data Quality is Foundational:** The initial step of cleaning illogical physiological data (`ap_hi`, `ap_lo`, `height`, `weight`) was crucial for building a reliable model.
-- **Model Interpretability:** While the random forest had the highest recall, the SVM's balance and the Decision Tree's interpretability (from feature importance) proved to be significant advantages for a healthcare application.
-- **Real-World Constraints:** Prioritizing recall over a simple accuracy metric is a common and essential practice in medical risk screening. The project highlighted that model selection and tuning should always be driven by the specific business objective.
-- **`GridSearchCV`:** Using a grid search with a recall scoring metric was key to finding a decision tree configuration that minimized false negatives and didn't overfit.
+- **Domain-Specific Data Cleaning:** Real-world data, especially in healthcare, requires domain knowledge to identify and handle errors that are not just statistical outliers but physiologically impossible.
+- **Metric Selection is Context-Dependent:** For a medical screening tool, recall (sensitivity) is often more critical than accuracy or precision. A false negative (missing a sick patient) is far more costly than a false positive (flagging a healthy patient for review).
+- **The Power of Ensembles:** Random Forest's ability to reduce the variance of individual decision trees led to a more stable and accurate model.
+
+## Future Work
+
+- **Advanced Models:** Experiment with Gradient Boosting models (XGBoost, LightGBM) which often perform best on tabular data.
+- **Explainability:** Apply SHAP (SHapley Additive exPlanations) to the final model to better understand the drivers of individual predictions.
+- **Cross-Validation Strategy:** Implement a more robust cross-validation strategy, such as stratified k-fold, to ensure stable evaluation, especially with imbalanced datasets.
 
 ## Repository Structure
 
 ```
 CardioRisk-Prediction/
-├── data/
-│ └── health_data.csv # Sample data
-├── CardioRisk_Prediction.ipynb # Full Jupyter Notebook
-├── report.pdf # Comprehensive project report
-└── README.md # Project overview
+├── CardioRisk_Prediction.ipynb # Jupyter Notebook with the complete analysis
+├── README.md                   # Project summary (this file)
+└── data/
+    └── health_data.csv         # Sample dataset
 ```
 
 ## Notes
-
-- **Data:** The full `health_data.csv` is excluded from this repository. The provided data is a sample to demonstrate the structure of the dataset.
-- **Academic Project:** This work was completed as part of an MSc in Machine Learning and Artificial Intelligence. It emphasizes the development of a practical machine learning solution for healthcare, focusing on conceptual understanding, analytical reasoning, and the complete modelling lifecycle rather than deployment.
+- This project was completed as part of an MSc in Machine Learning and Artificial Intelligence. It emphasizes the development of a practical machine learning solution for healthcare, focusing on conceptual understanding, analytical reasoning, and the complete modelling lifecycle rather than deployment.

@@ -4,42 +4,79 @@ Welcome to my portfolio. This repository showcases my journey and project work a
 
 ## About This Repository
 
-This collection includes a mix of academic coursework and personal projects.
+This collection includes a mix of academic coursework and personal projects designed to demonstrate a rapid and practical acquisition of skills in modern data-centric engineering.
 
-*   **Academic Projects**: These demonstrate my foundational understanding of core machine learning concepts, including Exploratory Data Analysis (EDA), data cleaning, feature engineering, model building, and evaluation using tools like PySpark and Scikit-learn.
-*   **Personal Projects**: These are practical, hands-on implementations showcasing my skills in building end-to-end systems, including data engineering pipelines, API development, MLOps principles, and Generative AI applications.
+*   **Academic Projects**: Foundational coursework from my MSc in Machine Learning & Artificial Intelligence, demonstrating core competencies in data analysis, classical machine learning, and big data processing.
+*   **Personal Projects**: Practical, end-to-end systems that showcase my ability to design, build, and deploy production-style data engineering pipelines, MLOps workflows, and Generative AI applications.
 
-### Key Concepts & Technologies
+## Recruiter Takeaways
 
-| Category              | Skills & Concepts                                                                                             |
+This portfolio demonstrates experience across:
+
+*   **Machine Learning Workflows**: End-to-end project execution, including data cleaning, exploratory data analysis (EDA), feature engineering, model evaluation, and hyperparameter tuning.
+*   **Data Engineering Pipelines**: Design and implementation of ETL/ELT processes using PySpark, PostgreSQL, and containerized microservices with Docker.
+*   **Generative AI Applications**: Integration of Large Language Models (LLMs) into software workflows for complex tasks like automated code analysis and report generation.
+*   **NLP Techniques**: Application of Natural Language Processing for entity extraction from unstructured text using methods like Conditional Random Fields (CRF).
+*   **End-to-End Solution Development**: Building full-stack applications, from data ingestion and model training with Scikit-learn to API deployment with FastAPI and frontend interaction with React.
+*   **Production Software Engineering Practices**: Application of robust software principles, including REST API design, automated testing, containerization, and modular system architecture.
+*   **MLOps & System Design**: Implementation of systems with considerations for model serving, scalability, and future integration points like webhooks.
+
+## Project Categories
+
+The projects are organized into two main categories, reflecting a progression from theoretical understanding to practical application.
+
+*   **[Personal Projects](./Personal%20Projects/)**: These projects were built to solve practical problems and demonstrate my ability to design, build, and deploy data-driven applications from the ground up.
+*   **[Academic Projects](./Academic%20Projects/)**: These projects were completed as part of my MSc coursework. They demonstrate my understanding of fundamental ML concepts, data analysis techniques, and big data processing.
+
+## Learning Progression
+
+This portfolio is structured to show a clear learning trajectory:
+
+1.  **Foundational ML**: Grasping core concepts through academic projects in regression, classification, and NLP.
+2.  **Big Data Processing**: Applying PySpark to large-scale datasets for analysis and transformation.
+3.  **Data Engineering & System Design**: Building containerized ETL pipelines and microservices.
+4.  **End-to-End ML Systems**: Developing full-stack applications that serve ML models via APIs.
+5.  **Generative AI Integration**: Leveraging LLMs to build intelligent, automated systems.
+
+## Technology Stack
+
+| Category              | Technologies & Tools                                                                                             |
 | --------------------- | ------------------------------------------------------------------------------------------------------------- |
-| **Machine Learning**  | EDA, Data Cleaning, Feature Engineering, Feature Selection, Data Visualization, Classification, Regression, Model Evaluation, Hyperparameter Tuning |
-| **Data Engineering**  | ETL Pipelines, API Development, Docker, Containerization, Data Modeling, PostgreSQL, PySpark |
-| **Generative AI**     | LLM Integration, Prompt Engineering, AI-driven Code Analysis, Output Normalization |
-| **Software & MLOps**  | FastAPI, Flask, REST APIs, Git, CI/CD, Model Deployment, System Design, Microservices |
+| **Machine Learning**  | Scikit-learn, Pandas, NumPy, Matplotlib, Seaborn, Jupyter                                                     |
+| **Data Engineering**  | PySpark, PostgreSQL, Docker, Docker Compose, ETL/ELT Design                                                   |
+| **Generative AI**     | LLM Integration (OpenAI), Prompt Engineering, Output Normalization                                            |
+| **Software & MLOps**  | Python, FastAPI, Flask, REST APIs, Git, CI/CD Principles, Microservices                                       |
+| **Frontend**          | React, HTML/CSS                                                                                               |
 
----
+## Key Skills Demonstrated
 
-## Projects
+| Domain                | Skills                                                                                             |
+| --------------------- | -------------------------------------------------------------------------------------------------- |
+| **Machine Learning**  | Exploratory Data Analysis (EDA), Feature Engineering, Regression, Classification, Model Evaluation, Hyperparameter Tuning |
+| **Data Engineering**  | ETL Pipelines, API Development, Docker, Containerization, Data Modeling, PostgreSQL, PySpark        |
+| **Generative AI**     | LLM Integration, Prompt Engineering, AI-driven Code Analysis, Output Normalization                 |
+| **Software & MLOps**  | FastAPI, Flask, REST APIs, Git, CI/CD, Model Deployment, System Design, Microservices             |
 
-The projects are organized into two categories. For detailed information about each project, please see the `README.md` file inside its folder.
+## Repository Structure
 
-### Personal Projects
+```
+.
+├── README.md                   # Portfolio Overview (You are here)
+├── Academic Projects/
+│   ├── README.md               # Summary of academic work
+│   ├── Car-Price-Prediction/
+│   └── ...                     # (7 other academic projects)
+└── Personal Projects/
+    ├── README.md               # Summary of personal work
+    ├── AI-Code-Review/
+    ├── Credit-Risk-ML-System/
+    └── Customer-Data-Pipeline/
+```
 
-These projects were built to solve practical problems and demonstrate my ability to design, build, and deploy data-driven applications from the ground up.
+## About Me
 
-| Project                 | Description                                                                                                                            |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| **[AI Code Review](./Personal%20Projects/AI-Code-Review)**      | An automated code review system that uses a Large Language Model (LLM) to analyze pull request diffs, detect bugs and vulnerabilities, and generate comprehensive reports. |
-| **[Credit Risk ML System](./Personal%20Projects/Credit-Risk-ML-System)** | An end-to-end machine learning system that predicts credit risk using the Home Credit Default Risk dataset. Includes PySpark data processing, Scikit-learn model training, FastAPI backend, and React frontend. |
-| **[Customer Data Pipeline](./Personal%20Projects/Customer-Data-Pipeline)**| A containerized microservices-based ETL pipeline for ingesting, processing, and storing customer data from a mock API into PostgreSQL. |
+I am a Software Engineer transitioning into Data Science and AI, leveraging a strong background in system design and application development to build robust, scalable, and intelligent data products. My goal is to apply my skills to solve complex business problems and drive value through data.
 
-### Academic Projects
-
-These projects were completed as part of my MSc coursework. They demonstrate my understanding of fundamental ML concepts, data analysis techniques, and big data processing.
-
-| Project                    | Description                                                                                             |
-| -------------------------- | ------------------------------------------------------------------------------------------------------- |
 | **[Car Price Prediction](./Academic%20Projects/Car-Price-Prediction)**   | A regression project to predict the price of used cars based on their features using Scikit-learn. |
 | **[CardioRisk Prediction](./Academic%20Projects/CardioRisk-Prediction)**  | A classification project to predict the risk of cardiovascular disease based on patient health data. |
 | **[E-commerce Data Management](./Academic%20Projects/Ecommerce-Data-Management)** | A file handling project demonstrating multi-format (CSV, JSON, TXT) data management for product information. |
