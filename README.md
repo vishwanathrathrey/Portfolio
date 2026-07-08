@@ -44,7 +44,7 @@ This portfolio is structured to show a clear learning trajectory:
 | --------------------- | ------------------------------------------------------------------------------------------------------------- |
 | **Machine Learning**  | Scikit-learn, Pandas, NumPy, Matplotlib, Seaborn, Jupyter                                                     |
 | **Data Engineering**  | PySpark, PostgreSQL, Docker, Docker Compose, ETL/ELT Design                                                   |
-| **Generative AI**     | LLM Integration (OpenAI), Prompt Engineering, Output Normalization                                            |
+| **Generative AI**     | LLM Integration (Ollama), Prompt Engineering, Output Normalization                                            |
 | **Software & MLOps**  | Python, FastAPI, Flask, REST APIs, Git, CI/CD Principles, Microservices                                       |
 | **Frontend**          | React, HTML/CSS                                                                                               |
 
