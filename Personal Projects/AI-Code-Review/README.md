@@ -2,99 +2,249 @@
 
 ## Overview
 
-This project implements an AI-powered code review assistant that automates the process of reviewing GitHub pull requests. The system listens for pull request events via a webhook, fetches the code changes, analyzes them using a local Large Language Model (LLM) via Ollama, and posts formatted review comments back to the pull request. The entire application is designed as a modular, event-driven system, showcasing best practices in software engineering, including dependency injection, clear separation of concerns, and comprehensive testing.
+AI-Powered Code Review Assistant is a Generative AI application that automates GitHub Pull Request reviews using a locally hosted Large Language Model (LLM) through Ollama.
+
+The system retrieves pull request changes, performs AI-driven code analysis, validates findings, generates structured review reports, and publishes actionable feedback.
+
+This project demonstrates the practical application of Generative AI within the Software Development Lifecycle (SDLC) while emphasizing software architecture, API integration, validation pipelines, testing, and maintainable system design.
+
+---
 
 ## Recruiter Snapshot
 
-This project demonstrates:
-- **End-to-End System Design:** Competency in designing and building a complete, event-driven application, from webhook ingestion to external API interaction (GitHub, Ollama) and back.
-- **LLM/Generative AI Integration:** Practical experience in integrating a Large Language Model (Ollama) to perform a core business logic task (code review), including prompt engineering and output parsing.
-- **Software Engineering Best Practices:** Strong adherence to modern software engineering principles, including a modular architecture with clear separation of concerns, dependency injection for loose coupling, and a focus on testability.
-- **Robust Testing Strategy:** A comprehensive testing suite with high coverage, including unit tests for individual components and integration tests for key workflows, demonstrating a commitment to code quality and reliability.
-- **API and Webhook Integration:** Proficiency in building a web server (Flask) to handle incoming webhooks and interacting with external REST APIs (GitHub API) for a real-world integration scenario.
+### This project demonstrates:
 
-## Features
+- Generative AI & LLM Integration
+- Prompt Engineering
+- GitHub API Integration
+- REST API Development
+- Software Architecture & Design
+- AI Output Validation
+- Security Scanning
+- Automated Report Generation
+- Testing & Quality Engineering
+- Workflow Automation
 
-- **Webhook-driven:** Listens for GitHub pull request events (`opened`, `reopened`, `synchronize`).
-- **AI-Powered Analysis:** Uses a local LLM (via Ollama) to analyze code diffs and generate review suggestions.
-- **Automated Commenting:** Posts review comments directly to the relevant lines in the GitHub pull request.
-- **Configurable:** Easily configured via a `config.ini` file for different models, prompts, and GitHub settings.
-- **Modular and Testable:** Built with a clean, modular architecture that is easy to maintain and test.
+---
 
-## Architecture
+## Technologies
 
-The system is composed of several key modules, each with a distinct responsibility:
+| Category | Technologies |
+|-----------|-------------|
+| Language | Python |
+| AI / LLM | Ollama |
+| Backend | Flask |
+| APIs | GitHub REST API, Resend API |
+| Reporting | Markdown, HTML |
+| Testing | Pytest, unittest.mock |
+| Configuration | JSON |
+| Version Control | GitHub |
 
-1.  **`webhook_server.py` (Entry Point):**
-    - A Flask-based web server that exposes a `/webhook` endpoint.
-    - Receives and validates incoming GitHub webhook payloads.
-    - Parses the pull request data and triggers the core processing logic.
+---
 
-2.  **`pr_service.py` (Orchestrator):**
-    - The central service that orchestrates the entire code review process.
-    - Fetches the pull request diff, invokes the AI analysis, formats the comments, and posts the review to GitHub.
+## Problem Statement
 
-3.  **`ollama_client.py` (LLM Interaction):**
-    - A client for interacting with the Ollama API.
-    - Sends the code diff and a system prompt to the LLM and retrieves the AI-generated review.
+Code reviews are critical for maintaining software quality, but manual reviews can become time-consuming and inconsistent.
 
-4.  **`github_client.py` (GitHub API Interaction):**
-    - A client for interacting with the GitHub REST API.
-    - Handles fetching pull request diffs and posting review comments.
+This project explores how Large Language Models can assist developers by automatically analyzing pull request changes and generating structured review feedback while applying validation and filtering mechanisms to improve reliability.
 
-5.  **`review_comment_generator.py` & `comment_formatter.py` (Output Processing):**
-    - Responsible for parsing the raw JSON output from the LLM and formatting it into review comments that the GitHub API can accept.
+---
 
-6.  **Dependency Injection:**
-    - The system makes extensive use of dependency injection. Services like `PRService` are initialized with client instances (`OllamaClient`, `GithubClient`), which makes the components loosely coupled and highly testable.
+## Architecture Overview
 
-## Project Workflow
+The application follows a modular architecture with clear separation of responsibilities.
 
-1.  A developer opens or updates a pull request on a configured GitHub repository.
-2.  GitHub sends a webhook payload to the running Flask server.
-3.  The `webhook_server` receives the payload, validates it, and passes the PR data to the `PRService`.
-4.  `PRService` uses the `GithubClient` to fetch the `.diff` file for the pull request.
-5.  The diff content is sent to the `OllamaClient`, which queries the local LLM for a code review.
-6.  The LLM returns a JSON object containing review suggestions.
-7.  The `review_comment_generator` parses this JSON.
-8.  `PRService` uses the `GithubClient` again to post the formatted comments to the pull request.
+### Core Components
 
-## Techniques and Concepts Applied
+#### GitHub Integration
 
-| Technique | Application |
-|---|---|
-| **Webhook Integration** | Using a Flask server to receive and process real-time events from GitHub. |
-| **LLM Integration** | Interacting with the Ollama API to leverage a local LLM for code analysis. |
-| **REST API Consumption** | Making authenticated requests to the GitHub API to fetch data and post comments. |
-| **Modular Architecture** | Structuring the code into independent, single-responsibility modules (clients, services, parsers). |
-| **Dependency Injection** | Decoupling components by passing dependencies (like clients) during initialization. |
-| **Unit & Integration Testing** | Using `pytest` and `unittest.mock` to create a comprehensive test suite with high coverage. |
-| **Configuration Management** | Using `configparser` to manage application settings in an external file. |
+- Fetch Pull Request metadata
+- Retrieve changed files and diffs
+- Publish review comments
+
+#### AI Review Engine
+
+- Generate prompts from code changes
+- Send code patches to Ollama
+- Receive AI-generated review findings
+
+#### Validation Pipeline
+
+- Parse AI responses
+- Normalize output
+- Validate evidence against code changes
+- Remove low-confidence findings
+- Classify severity levels
+
+#### Reporting Layer
+
+- Generate HTML reports
+- Generate Markdown reports
+- Produce review statistics
+
+#### Notification Layer
+
+- Email review summaries using Resend API
+- Post review comments directly to GitHub
+
+---
+
+## Current Workflow
+
+The project currently operates through a development workflow triggered manually using Postman.
+
+```text
+Postman
+    ↓
+Flask API
+    ↓
+GitHub API
+    ↓
+Pull Request Diff
+    ↓
+Ollama LLM
+    ↓
+Review Validation Pipeline
+    ↓
+HTML / Markdown Reports
+    ↓
+GitHub Comments & Email Notifications
+```
+
+### Review Flow
+
+1. Trigger review through Postman.
+2. Fetch Pull Request details and diffs from GitHub.
+3. Send code changes to Ollama.
+4. Generate AI review findings.
+5. Validate and normalize findings.
+6. Perform security scanning.
+7. Generate reports.
+8. Publish results to GitHub and email notifications.
+
+---
+
+## Key Features
+
+### AI-Powered Review Generation
+
+- Automated code analysis using Ollama
+- Prompt-based review generation
+- Structured review findings
+
+### Validation & Quality Controls
+
+- JSON output validation
+- Evidence verification
+- Duplicate finding removal
+- Severity classification
+- Review normalization
+
+### Security Analysis
+
+- Hardcoded secret detection
+- Security-focused review checks
+
+### Reporting
+
+- Markdown reports
+- HTML reports
+- Review statistics
+
+### Integrations
+
+- GitHub API
+- Ollama
+- Resend Email API
+
+---
+
+## Software Engineering Concepts Demonstrated
+
+### Architecture & Design
+
+- Modular Architecture
+- Separation of Concerns
+- Dependency Injection
+- Single Responsibility Principle
+- Service-Oriented Design
+
+### Backend Development
+
+- REST APIs
+- Flask Applications
+- API Integrations
+- Workflow Orchestration
+
+### Testing
+
+- Unit Testing
+- Integration Testing
+- Mocking External Services
+
+### AI Engineering
+
+- LLM Integration
+- Prompt Engineering
+- Output Validation
+- AI Reliability Controls
+
+---
 
 ## Key Learnings
 
-- **Importance of Modular Design:** The modular architecture was critical for managing complexity and enabling effective testing. Each component could be developed and tested in isolation.
-- **Challenges of LLM Output Parsing:** Reliably parsing the output from an LLM requires robust error handling and a flexible parsing strategy, as the format can sometimes be inconsistent.
-- **Testing External Integrations:** Using mock objects (`unittest.mock`) is an essential technique for testing components that interact with external APIs, allowing for fast and reliable tests without making real network requests.
+- Integrating LLMs into production-style workflows requires strong validation mechanisms.
+- AI-generated outputs must be normalized and verified before automated usage.
+- Combining deterministic validation with AI analysis improves review quality.
+- Modular architectures significantly improve maintainability and testability.
+- Generative AI can augment software engineering workflows while still requiring quality controls.
 
-## Future Work
+---
 
-- **Support for More LLMs:** Abstract the LLM client further to support other models and APIs (e.g., OpenAI, Anthropic).
-- **Advanced Prompt Engineering:** Implement more sophisticated prompt engineering techniques to improve the quality and relevance of the AI-generated reviews.
-- **Batching and Caching:** Introduce caching for diffs and batching for comments to improve performance and handle rate limits more gracefully.
-- **Interactive Feedback Loop:** Allow users to provide feedback on review comments to fine-tune the AI model over time.
+## Future Enhancements
+
+- Enable automatic GitHub Webhook triggering
+- Support OpenAI, Gemini, and Anthropic models
+- Dockerized deployment
+- CI/CD integration
+- Review history tracking
+- Multi-repository support
+- Analytics dashboard
+
+---
 
 ## Repository Structure
 
-```
-AI-Code-Review/
-├── app/                    # Core application logic
-├── config/                 # Configuration files
-├── tests/                  # Unit and integration tests
-├── generate_report.py      # Script to generate test coverage reports
-├── requirements.txt        # Python dependencies
-└── webhook_server.py       # Flask server entry point
+```text
+AI-Code-Review
+│
+├── app/
+│   ├── github_client.py
+│   ├── ollama_client.py
+│   ├── review_engine.py
+│   ├── reviewer.py
+│   ├── security_scanner.py
+│   ├── evidence_validator.py
+│   └── ...
+│
+├── config/
+├── webhook_server.py
+├── generate_report.py
+├── requirements.txt
+└── README.md
 ```
 
-## Notes
-- This project is a personal endeavor to explore the practical application of LLMs in the software development lifecycle. It demonstrates a strong understanding of modern software architecture and GenAI integration.
+---
+
+## Why This Project Matters
+
+This project combines:
+
+- Generative AI
+- Software Architecture
+- API Development
+- Security Analysis
+- Testing
+- Workflow Automation
+
+into a practical end-to-end system that demonstrates how AI can be integrated into real-world software engineering processes.
