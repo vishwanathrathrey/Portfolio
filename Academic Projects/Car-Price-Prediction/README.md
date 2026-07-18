@@ -71,17 +71,18 @@ This project demonstrates:
 
 ## Results
 
-| Model | R-squared (Test Set) | MAE (Test Set) | Key Finding |
-|---|---|---|---|
-| **Linear Regression** | 0.86 | 0.14 | Strong baseline but susceptible to multicollinearity. |
-| **Ridge Regression** | 0.86 | 0.14 | Performed similarly to linear regression, effectively shrinking coefficients. |
-| **Lasso Regression** | 0.86 | 0.14 | Achieved comparable performance while performing automatic feature selection. |
+| Model | R-squared (Test Set) | MAE (Test Set) | RMSE (Test Set) | Key Finding |
+|---|---|---|---|---|
+| **Linear Regression** | 0.7847 | 0.1432 | 0.1800 | Strong baseline but susceptible to multicollinearity. |
+| **Ridge Regression** | 0.7847 | 0.1432 | 0.1800 | Performed similarly to linear regression, effectively shrinking coefficients. |
+| **Lasso Regression** | 0.7847 | 0.1432 | 0.1800 | Achieved comparable performance while performing automatic feature selection. |
 
 ## Key Insights
 
 - **Top Price Influencers:** `car_age`, `hp_kW` (horsepower), and `make` were consistently the most significant predictors of price.
-- **Feature Selection:** Lasso regression successfully zeroed out coefficients of less important features, demonstrating its utility for creating more interpretable and simpler models.
-- **Regularization Impact:** Both Ridge and Lasso produced more stable models by penalizing large coefficient values, making them robust to collinear features.
+- **Minimal Regularization Impact on Performance:** The performance metrics for all three models are nearly identical because the optimal regularization strength (`alpha`) found during hyperparameter tuning was extremely close to zero. This indicates that for this dataset, the baseline linear model was not significantly overfitting, and the regularization penalty was too small to cause a noticeable change in predictive accuracy.
+- **Feature Selection:** Lasso regression successfully zeroed out coefficients of less important features, demonstrating its utility for creating more interpretable and simpler models even when performance metrics don't change.
+- **Model Stability:** Both Ridge and Lasso produced more stable models by penalizing large coefficient values, making them robust to collinear features, which was their primary benefit in this analysis.
 
 ## Key Learnings
 
