@@ -13,7 +13,9 @@ Across these projects, I gained practical experience in:
 *   **Regression & Classification Modeling:** Implementing and evaluating a range of supervised learning models, from regularized linear models (Ridge, Lasso) to tree-based ensembles (Random Forest).
 *   **Model Evaluation & Tuning:** Assessing model performance using metrics like R-squared, MAE (for regression), and Precision, Recall, F1-score, and ROC-AUC (for classification), along with hyperparameter optimization.
 *   **Natural Language Processing (NLP):** Building an NER pipeline using Conditional Random Fields (CRF), including tokenization, feature extraction, and class weighting to handle imbalanced data.
+*   **Retrieval-Augmented Generation (RAG):** Building a document-grounded question answering workflow with chunking, embeddings, vector search, and benchmark evaluation.
 *   **Distributed Data Processing:** Leveraging Apache PySpark to perform large-scale data cleaning, transformation, and aggregation on structured and semi-structured datasets.
+*   **Computer Vision & Transfer Learning:** Applying pretrained convolutional neural networks to industrial image classification problems with train/validation workflows.
 *   **Data Visualization:** Communicating analytical findings and model results through clear and informative charts, graphs, and heatmaps.
 
 ## Academic Project List
@@ -26,8 +28,10 @@ Across these projects, I gained practical experience in:
 | **[Flight Delay Analysis](./Flight-Delay-Analysis/)** | Big Data Analytics, Data Aggregation, Time-Series Analysis | PySpark |
 | **[Lung Cancer Analysis](./Lung-Cancer-Analysis/)** | Healthcare Analytics, Data Cleaning, Survival Analysis | PySpark |
 | **[NYC Taxi Data Analysis](./NYC-Taxi-Data-Analysis/)** | Geospatial Analysis, Temporal Analysis, Outlier Detection | GeoPandas, Pandas |
+| **[RAG Legal Docs](./RAG-Legal-Docs/)** | Retrieval-Augmented Generation, Document Chunking, Vector Search, Benchmark Evaluation | LangChain, ChromaDB, Python |
 | **[Recipe NER-CRF](./Recipe-NER-CRF/)** | NLP, Named Entity Recognition (NER), Conditional Random Fields (CRF) | Scikit-learn, Joblib |
 | **[Traffic Data Analysis](./Traffic-Data-Analysis/)** | Big Data ETL, Data Cleaning, Risk Factor Analysis | PySpark, Plotly |
+| **[Transfer Learning Surface Defect Classification](./Transfer-Learning-Surface-Defect-Classification/)** | Computer Vision, Transfer Learning, Image Classification | PyTorch, Torchvision |
 
 ## Learning Outcomes
 

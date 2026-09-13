@@ -41,6 +41,14 @@ logs/
 # Note: The following rules are repetitive. They are structured to ignore data files
 # in each project's root while allowing sample data.
 
+# RAG-Legal-Docs
+/Academic Projects/RAG-Legal-Docs/data/rag_legal/corpus/
+/Academic Projects/RAG-Legal-Docs/data/rag_legal/benchmarks/
+/Academic Projects/RAG-Legal-Docs/data/rag_legal/chroma_db/
+
+# Transfer-Learning-Surface-Defect-Classification
+/Academic Projects/Transfer-Learning-Surface-Defect-Classification/data/NEU-DET/
+
 # Car-Price-Prediction
 /Academic Projects/Car-Price-Prediction/data/raw/
 /Academic Projects/Car-Price-Prediction/*.csv

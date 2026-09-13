@@ -75,6 +75,8 @@ These projects focus on:
 - Machine Learning fundamentals
 - Data Analysis
 - Natural Language Processing
+- Retrieval-Augmented Generation
+- Computer Vision
 - Big Data Analytics
 - Feature Engineering
 - Predictive Modeling
@@ -86,11 +88,13 @@ These projects focus on:
 | Car Price Prediction | Regression model for predicting used vehicle prices |
 | CardioRisk Prediction | Classification model for cardiovascular disease risk prediction |
 | Recipe NER-CRF | Named Entity Recognition using Conditional Random Fields |
+| RAG Legal Docs | Retrieval-augmented generation over legal agreements using document chunking and vector search |
 | Flight Delay Analysis | PySpark-based airline delay analytics |
 | Lung Cancer Analysis | Healthcare analytics using PySpark |
 | NYC Taxi Analysis | Exploratory analysis of large-scale transportation data |
 | Traffic Data Analysis | ETL and accident pattern analysis |
 | E-commerce Data Management | Multi-format data management using CSV, JSON, and TXT |
+| Transfer Learning Surface Defect Classification | Industrial image classification with transfer learning on the NEU-DET dataset |
 
 ---
 
@@ -158,8 +162,10 @@ Portfolio/
 │   ├── Flight-Delay-Analysis/
 │   ├── Lung-Cancer-Analysis/
 │   ├── NYC-Taxi-Data-Analysis/
+│   ├── RAG-Legal-Docs/
 │   ├── Recipe-NER-CRF/
 │   ├── Traffic-Data-Analysis/
+│   ├── Transfer-Learning-Surface-Defect-Classification/
 │   └── README.md
 │
 ├── Personal Projects/
