@@ -23,3 +23,4 @@ These projects showcase experience in:
 | **[AI Code Review System](./AI-Code-Review/)** | LLM Integration, API Design, Pipeline Architecture, Security Scanning | Python, Flask, OpenAI API, GitHub API |
 | **[Credit Risk ML System](./Credit-Risk-ML-System/)** | End-to-End ML, Data Engineering, Model Serving, Full-Stack | PySpark, Scikit-learn, FastAPI, React, Docker |
 | **[Customer Data Pipeline](./Customer-Data-Pipeline/)** | Microservices, ETL Pipeline, Container Orchestration, REST APIs | FastAPI, Flask, PostgreSQL, Docker |
+| **[Autonomous Agent](./Autonomous-Agent/)** | LLM Orchestration, Planning and Reflection, Tool Use, Document Generation, Full-Stack API | Python, FastAPI, React, Ollama, Docker |

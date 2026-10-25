@@ -37,6 +37,12 @@ logs/
 /Personal Projects/credit-risk-ml-system/frontend/node_modules/
 /Personal Projects/credit-risk-ml-system/frontend/dist/
 
+# Autonomous-Agent
+/Personal Projects/Autonomous-Agent/output/
+/Personal Projects/Autonomous-Agent/.ruff_cache/
+/Personal Projects/Autonomous-Agent/frontend/node_modules/
+/Personal Projects/Autonomous-Agent/frontend/dist/
+
 # Academic Projects
 # Note: The following rules are repetitive. They are structured to ignore data files
 # in each project's root while allowing sample data.

@@ -132,6 +132,15 @@ Production-style projects built to demonstrate practical engineering and AI capa
 - PostgreSQL persistence
 - Containerized deployment
 
+### Autonomous Agent
+
+**Stack:** Python, FastAPI, React, Ollama, Docker
+
+- Multi-step agent workflow with planning, tool execution, and reflection
+- Local LLM integration with request guardrails and bounded retries
+- Generates downloadable `.docx` business deliverables
+- Full-stack interface and API with automated tests
+
 ---
 
 # Technology Stack
@@ -169,6 +178,7 @@ Portfolio/
 │   └── README.md
 │
 ├── Personal Projects/
+│   ├── Autonomous-Agent/
 │   ├── AI-Code-Review/
 │   ├── Credit-Risk-ML-System/
 │   ├── Customer-Data-Pipeline/
