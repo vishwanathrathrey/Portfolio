@@ -15,6 +15,8 @@ This project demonstrates:
 
 ## Dataset
 
+> **Data is not included in this repository** due to UpGrad programme and dataset licensing. See [Notes](#notes). The paths below show the layout expected by the notebook.
+
 - **Corpus:** Legal agreement text files stored in `data/rag_legal/corpus/`
 - **Benchmarks:** Evaluation JSON files stored in `data/rag_legal/benchmarks/`
 - **Generated Store:** Chroma database persisted in `data/rag_legal/chroma_db/`
@@ -54,7 +56,33 @@ This project demonstrates:
 - The notebook successfully builds an end-to-end legal RAG pipeline.
 - The legal corpus is loaded directly from the repository structure and indexed into Chroma.
 - Benchmark files are parsed into question, answer, and source lists for evaluation.
-- The resulting workflow supports source-aware legal question answering using local embeddings and a local LLM.
+- The resulting workflow supports source-aware legal question answering using local embeddings (Ollama `nomic-embed-text`) and a local LLM.
+
+### Evaluation Metrics
+
+| Metric | Value |
+|---|---|
+| Faithfulness | 0.2837 |
+| Answer Relevancy | 0.4854 |
+| ROUGE-1 | 0.2144 |
+| Hit Rate | 0.1000 |
+| MRR | 0.1000 |
+
+These scores show retrieval is the main bottleneck, which motivates the improvements listed under Future Work.
+
+### Exploratory Analysis
+
+**Most and least common words**
+
+![Most and least common words](Images/Most%20and%20least%20common%20words%20chart.png)
+
+**TF-IDF cosine similarity: first 10 documents**
+
+![TF-IDF cosine similarity for the first 10 documents](Images/TF-IDF%20Cosine%20Similarity%20-%20First%2010%20Documents.png)
+
+**TF-IDF cosine similarity: 10 random documents**
+
+![TF-IDF cosine similarity for 10 random documents](Images/TF-IDF%20Cosine%20Similarity%20-%2010%20Random%20Documents.png)
 
 ## Key Insights
 
@@ -81,11 +109,14 @@ This project demonstrates:
 RAG-Legal-Docs/
 ├── data/
 │   └── rag_legal/
+├── Images/
 ├── RAG_Legal_Docs.ipynb
 └── README.md
 ```
 
 ## Notes
 
+- This is an academic project completed as part of the UpGrad programme.
+- The dataset files are not included in this repository because of licensing and data-copyright restrictions. The notebook outputs and the images above show the results.
 - The project follows the same top-level `data/` convention used by the other academic projects.
 - The notebook should be executed from the project folder root so the relative paths resolve correctly.
