@@ -1,0 +1,48 @@
+name: AI Code Review
+
+# Runs on a self-hosted runner on the machine that hosts Ollama, so the review
+# uses local models and Ollama is never exposed to the internet.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+# One review per PR at a time; a newer push supersedes a running review.
+concurrency:
+  group: ai-code-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    # Never run on forks or drafts (fork PRs must not reach a self-hosted runner).
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.draft == false
+    runs-on: [self-hosted, ai-review]
+    timeout-minutes: 60
+    steps:
+      # Check out the BASE commit only: the reviewer code that runs is always the
+      # already-merged version, and PR code is never executed. The PR diff is read
+      # through the GitHub API.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+
+      - name: Install reviewer dependencies
+        working-directory: Personal Projects/AI-Code-Review
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+
+      - name: Review pull request with local Ollama
+        working-directory: Personal Projects/AI-Code-Review
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          REVIEW_EMAIL_TO: ${{ secrets.REVIEW_EMAIL_TO }}
+          OLLAMA_BASE_URL: http://localhost:11434
+          OLLAMA_PRIMARY_MODEL: qwen2.5-coder:7b
+          OLLAMA_FALLBACK_MODEL: mistral
+        run: python run_review.py
