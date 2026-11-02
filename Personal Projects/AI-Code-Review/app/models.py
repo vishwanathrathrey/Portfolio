@@ -15,6 +15,9 @@ class ReviewFinding:
     line: int
     filename: str
     confidence: str = "Medium"
+    title: str = ""
+    why_it_matters: str = ""
+    source: str = "ai"
 
 @dataclass
 class ReviewReport:

@@ -22,7 +22,7 @@ def post_pr_comment(owner, repo, pull_number, token, body):
 
     print(f"Posting PR comment to: {url}")
 
-    response = requests.post(url, headers=headers, json=payload)
+    response = requests.post(url, headers=headers, json=payload, timeout=30)
 
     print(f"GitHub PR comment status: {response.status_code}")
     if response.status_code != 201:
@@ -71,7 +71,8 @@ def post_review_comment(
     response = requests.post(
         url,
         headers=headers,
-        json=payload
+        json=payload,
+        timeout=30
     )
 
     print(f"GitHub review comment status: {response.status_code}")

@@ -1,167 +1,114 @@
-import sys
-import os
+"""Optional webhook receiver. The primary trigger is the GitHub Actions workflow
+(.github/workflows/ai-code-review.yml); use this only if you prefer GitHub webhooks
+and can expose this port through a secured tunnel.
 
-# Add the project root to the Python path
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+It authenticates every delivery with the webhook secret, acknowledges immediately
+(GitHub times out after 10 s) and runs reviews one at a time in a background worker,
+sharing the same pipeline and duplicate-prevention store as the CLI."""
+from __future__ import annotations
+
+import hashlib
+import hmac
+import logging
+import os
+import threading
+from collections import OrderedDict
+from concurrent.futures import ThreadPoolExecutor
 
 from flask import Flask, request
-from app.pr_service import get_changed_files
-from app.file_storage import save_patch
-from app.report_service import generate_review_report
-from app.user_registry import get_user_email
-from app.email_service import send_report_email
-from app.review_scope import (
-    get_pr_file_exclusion_reason,
-    should_review_pr_file
-)
-from app.comment_formatter import build_pr_review_comment
 
-# IMPORTANT: import post_pr_comment
-from app.github_review_poster import post_pr_comment
+from app.config import load_settings
+from app.logging_utils import setup_logging
 
+HANDLED_ACTIONS = {"opened", "synchronize", "reopened", "ready_for_review"}
+MAX_SEEN_DELIVERIES = 1000
+
+log = logging.getLogger("webhook")
 app = Flask(__name__)
+app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
+
+_executor = ThreadPoolExecutor(max_workers=1)   # one Ollama job at a time
+_seen = OrderedDict()
+_seen_lock = threading.Lock()
+_pipeline = None
+
+
+def is_valid_signature(raw_body: bytes, signature_header, secret: str) -> bool:
+    """Verify GitHub's X-Hub-Signature-256 header. A missing secret never validates."""
+    if not secret or not signature_header:
+        return False
+    expected = "sha256=" + hmac.new(secret.encode("utf-8"), raw_body, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(expected, signature_header)
+
+
+def _get_pipeline():
+    global _pipeline
+    if _pipeline is None:
+        from run_review import build_pipeline
+        _pipeline = build_pipeline(load_settings())
+    return _pipeline
+
+
+def _run_review(repo, number):
+    try:
+        result = _get_pipeline().run(repo, number)
+        log.info("%s#%s -> %s", repo, number, result.status)
+    except Exception:
+        log.exception("review job crashed for %s#%s", repo, number)
+
+
+def _already_seen(delivery_id) -> bool:
+    if not delivery_id:
+        return False
+    with _seen_lock:
+        if delivery_id in _seen:
+            return True
+        _seen[delivery_id] = True
+        while len(_seen) > MAX_SEEN_DELIVERIES:
+            _seen.popitem(last=False)
+    return False
 
 
 @app.route("/")
 def home():
-    return """
-    <html>
-        <head>
-            <title>AI Code Review</title>
-        </head>
-        <body>
-            <h1>AI Code Review Webhook Running</h1>
-        </body>
-    </html>
-    """
+    return {"service": "ai-code-review-webhook", "status": "running"}
 
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
+    settings = load_settings()
+    if not settings.webhook_secret:
+        return {"status": "GITHUB_WEBHOOK_SECRET is not configured"}, 503
+    if not is_valid_signature(request.get_data(), request.headers.get("X-Hub-Signature-256"),
+                              settings.webhook_secret):
+        return {"status": "invalid signature"}, 401
 
-    payload = request.json
+    event = request.headers.get("X-GitHub-Event")
+    if event == "ping":
+        return {"status": "pong"}, 200
+    payload = request.get_json(silent=True)
+    if event != "pull_request" or not isinstance(payload, dict):
+        return {"status": "ignored"}, 200
+    if payload.get("action") not in HANDLED_ACTIONS:
+        return {"status": "ignored"}, 200
 
-    action = payload.get("action")
+    try:
+        repo = payload["repository"]["full_name"]
+        number = int(payload["pull_request"]["number"])
+    except (KeyError, TypeError, ValueError):
+        return {"status": "invalid payload"}, 400
 
-    if action not in ["opened", "synchronize"]:
+    if _already_seen(request.headers.get("X-GitHub-Delivery")):
+        return {"status": "duplicate delivery"}, 200
 
-        print(f"Ignoring action: {action}")
-
-        return {
-            "status": "ignored"
-        }, 200
-
-    pr = payload.get("pull_request", {})
-    repo = payload.get("repository", {})
-
-    author = pr.get("user", {}).get("login")
-    pr_number = pr.get("number")
-    repo_name = repo.get("full_name")
-
-    owner, repo_name_only = repo_name.split("/")
-
-    print("\n========== GITHUB EVENT ==========")
-    print("Action:", action)
-    print("Repository:", repo_name)
-    print("Author:", author)
-    print("Owner:", owner)
-    print("Repo:", repo_name_only)
-    print("PR Number:", pr_number)
-
-    changed_files = get_changed_files(
-        owner,
-        repo_name_only,
-        pr_number
-    )
-
-    print(f"Changed Files: {len(changed_files)}")
-
-    saved_diff_paths = []
-
-    for file in changed_files:
-
-        if not file.patch:
-            print(f"Skipping {file.filename}: empty patch")
-            continue
-
-        reason = get_pr_file_exclusion_reason(
-            file.filename
-        )
-
-        if reason is not None:
-            print(f"Skipping {file.filename}: {reason}")
-            continue
-
-        if not should_review_pr_file(
-            file.filename
-        ):
-            print(f"Skipping {file.filename}: not reviewable")
-            continue
-
-        path = save_patch(
-            file.filename,
-            file.patch
-        )
-
-        saved_diff_paths.append(path)
-
-        print(f"Saved review diff: {path}")
-
-    print(
-        f"Saved {len(saved_diff_paths)} review diffs for this webhook run"
-    )
-
-    report, html = generate_review_report(
-        saved_diff_paths
-    )
-
-    review_comment = build_pr_review_comment(
-        report.findings
-    )
-
-    github_token = os.getenv("GITHUB_TOKEN")
-
-    if github_token and report.findings:
-
-        status = post_pr_comment(
-            owner,
-            repo_name_only,
-            pr_number,
-            github_token,
-            review_comment
-        )
-
-        print(
-            f"GitHub PR comment status: {status}"
-        )
-
-    email = get_user_email(author)
-
-    if email:
-
-        send_report_email(
-            email,
-            html
-        )
-
-        print(
-            f"Report emailed to {email}"
-        )
-
-    else:
-
-        print(
-            f"No email found for {author}"
-        )
-
-    return {
-        "status": "received"
-    }, 200
+    _executor.submit(_run_review, repo, number)
+    return {"status": "accepted"}, 202
 
 
 if __name__ == "__main__":
-    app.run(
-        host="0.0.0.0",
-        port=5000,
-        debug=True
-    )
+    cfg = load_settings()
+    setup_logging(cfg)
+    # The Werkzeug debugger allows remote code execution: debug is opt-in only.
+    app.run(host=os.getenv("WEBHOOK_HOST", "127.0.0.1"),
+            port=int(os.getenv("WEBHOOK_PORT", "5000")),
+            debug=os.getenv("FLASK_DEBUG") == "1")

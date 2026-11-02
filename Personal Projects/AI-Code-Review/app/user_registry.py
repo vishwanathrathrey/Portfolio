@@ -1,10 +1,15 @@
 import json
+from pathlib import Path
+
+USERS_FILE = Path(__file__).resolve().parent.parent / "config" / "users.json"
 
 
 def get_user_email(username):
-
-    with open("config/users.json", "r") as file:
-        users = json.load(file)
+    """Optional fallback recipient lookup (REVIEW_EMAIL_TO takes precedence)."""
+    try:
+        users = json.loads(USERS_FILE.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
 
     user = users.get(username)
 

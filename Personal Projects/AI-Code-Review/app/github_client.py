@@ -6,7 +6,8 @@ load_dotenv()
 
 class GitHubClient:
     def __init__(self):
-        token = os.getenv("GITHUB_TOKEN")
+        self.token = os.getenv("GITHUB_TOKEN")
+        token = self.token
 
         self.headers = {
             "Authorization": f"Bearer {token}",
@@ -14,6 +15,9 @@ class GitHubClient:
         }
 
     def get(self, url: str):
-        response = requests.get(url, headers=self.headers)
+        if not self.token:
+            raise RuntimeError("GITHUB_TOKEN is not set")
+
+        response = requests.get(url, headers=self.headers, timeout=30)
         response.raise_for_status()
         return response.json()
