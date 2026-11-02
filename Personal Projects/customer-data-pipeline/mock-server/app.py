@@ -1,13 +1,12 @@
 from flask import Flask, jsonify, request
 import json
-import os
 from pathlib import Path
 
 app = Flask(__name__)
 
 def load_customers():
     data_path = Path(__file__).parent / "data" / "customers.json"
-    with open(data_path, 'r') as f:
+    with open(data_path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
 CUSTOMERS = load_customers()
@@ -34,7 +33,7 @@ def get_customers():
         total = len(CUSTOMERS)
         start_idx = (page - 1) * limit
         end_idx = start_idx + limit
-        rt_idx:end_idx
+        data = CUSTOMERS[start_idx:end_idx]
         
         return jsonify({
             "data": data,
@@ -43,8 +42,8 @@ def get_customers():
             "limit": limit
         }), 200
     
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
+    except ValueError:
+        return jsonify({"error": "page and limit must be integers"}), 400
 
 @app.route('/api/customers/<customer_id>', methods=['GET'])
 def get_customer(customer_id):

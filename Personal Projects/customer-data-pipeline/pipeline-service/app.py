@@ -1,12 +1,9 @@
-from fastapi import FastAPI, Query, HTTPException, BackgroundTasks
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, Query, HTTPException, BackgroundTasks, Depends
 import httpx
 import logging
 from sqlalchemy import create_engine, Column, String, Text, Numeric, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import declarative_base, sessionmaker, Session
 from datetime import datetime
-import json
 import os
 
 logging.basicConfig(level=logging.INFO)
@@ -57,16 +54,11 @@ async def ingest_customers(background_tasks: BackgroundTasks):
     Fetch all data from Flask (handle pagination)
     and ingest into PostgreSQL
     """
-    try:
-        background_tasks.add_task(fetch_and_ingest)
-        return {
-            "status": "success",
-            "message": "Ingestion started in background",
-            "records_processed": 20
-        }
-    except Exception as e:
-        logger.error(f"Ingestion error: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
+    background_tasks.add_task(fetch_and_ingest)
+    return {
+        "status": "success",
+        "message": "Ingestion started in background"
+    }
 
 async def fetch_and_ingest():
     """Fetch all data from Flask and ingest into PostgreSQL"""
@@ -99,12 +91,6 @@ async def fetch_and_ingest():
             
             for customer_data in customers:
                 try:
-                    parsed_date = None
-                    if customer_data.get("date_of_birth"):
-                        parsed_date = datetime.fromisoformat(
-                            customer_data["date_of_birth"].replace('Z', '+00:00')
-                        )
-                    
                     created_date = None
                     if customer_data.get("created_at"):
                         created_date = datetime.fromisoformat(
@@ -145,21 +131,15 @@ async def fetch_and_ingest():
         db.close()
 
 @app.get("/api/customers")
-async def get_customers(
+def get_customers(
     page: int = Query(1, ge=1),
-    limit: int = Query(10, ge=1, le=100)
+    limit: int = Query(10, ge=1, le=100),
+    db: Session = Depends(get_db)
 ):
     """
     Get paginated list of customers from database
     """
     try:
-        db = SessionLocal()
-        
-        if page < 1:
-            page = 1
-        if limit < 1 or limit > 100:
-            limit = 10
-        
         total = db.query(Customer).count()
         start_idx = (page - 1) * limit
         
@@ -179,8 +159,6 @@ async def get_customers(
                 "created_at": customer.created_at.isoformat() if customer.created_at else None
             })
         
-        db.close()
-        
         return {
             "data": data,
             "total": total,
@@ -193,12 +171,10 @@ async def get_customers(
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/customers/{customer_id}")
-async def get_customer(customer_id: str):
+def get_customer(customer_id: str, db: Session = Depends(get_db)):
     """Get single customer by ID from database"""
     try:
-        db = SessionLocal()
         customer = db.query(Customer).filter(Customer.customer_id == customer_id).first()
-        db.close()
         
         if not customer:
             raise HTTPException(status_code=404, detail="Customer not found")

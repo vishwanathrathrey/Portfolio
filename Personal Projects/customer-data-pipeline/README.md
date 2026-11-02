@@ -1,92 +1,93 @@
-# Real-Time Customer Data Pipeline
+# Customer Data Pipeline
 
 ## Overview
 
-This project implements a real-time data pipeline that simulates the processing of customer data from a mock data source into a structured data warehouse. The system is built using a modern data engineering stack, including Kafka for event streaming, Spark Streaming for real-time processing, and Cassandra as a NoSQL data store. The entire pipeline is containerized with Docker, making it a portable and scalable solution for handling streaming data.
+A small containerized ETL pipeline. A **Flask mock server** exposes paginated customer data (loaded from a JSON file), and a **FastAPI pipeline service** pulls every page over HTTP, stores the records in **PostgreSQL** via SQLAlchemy, and serves them back through its own paginated REST API.
 
-## Recruiter Snapshot
+## What This Project Demonstrates
 
-This project demonstrates:
-- **Real-Time Data Engineering:** Proficiency in designing and building an end-to-end, real-time data pipeline using industry-standard tools like Kafka and Spark Streaming.
-- **Distributed Stream Processing:** Expertise in using Spark Streaming to consume, transform, and enrich data streams in a scalable and fault-tolerant manner.
-- **Event-Driven Architecture:** Competency in building a system based on an event-driven architecture, with Kafka serving as the central message bus for decoupling data producers and consumers.
-- **NoSQL Data Modeling:** Experience with Apache Cassandra, including designing a data model optimized for the high-write throughput required by streaming applications.
-- **Containerization and Orchestration:** Skill in using Docker and Docker Compose to containerize and orchestrate a complex, multi-service data pipeline, ensuring reproducibility and ease of deployment.
-
-## Features
-
-- **Mock Data Generation:** A mock server that generates and streams realistic customer and transaction data to a Kafka topic.
-- **Real-Time Ingestion with Kafka:** Apache Kafka is used as a distributed message queue to ingest high-throughput data streams.
-- **Stream Processing with Spark:** A Spark Streaming job consumes data from Kafka, performs real-time transformations (e.g., data cleaning, enrichment), and writes the results to Cassandra.
-- **NoSQL Data Warehouse:** Apache Cassandra is used as the final data store, optimized for fast writes and scalable reads.
-- **Containerized Pipeline:** The entire pipeline, including the mock server, Kafka, Zookeeper, Spark, and Cassandra, is containerized and managed with Docker Compose.
+- API-based ingestion with pagination (`httpx`, async)
+- ETL into a relational store (SQLAlchemy 2.x ORM, PostgreSQL)
+- Two-service architecture orchestrated with Docker Compose, including health checks
+- FastAPI background tasks, dependency-injected DB sessions, and input validation
+- Offline tests that run the real services against SQLite
 
 ## Architecture
 
-The pipeline is composed of several containerized services that work in concert to process data in real time.
+```text
+customers.json -> mock-server (Flask, :5000) --HTTP pages--> pipeline-service (FastAPI, :8000) -> PostgreSQL (:5432)
+```
 
-1.  **Mock Data Server:**
-    - A simple Python-based server that generates fake customer and transaction data.
-    - It acts as a data producer, sending JSON-formatted data records to a specific Kafka topic.
+| Service | Tech | Port | Role |
+|---|---|---|---|
+| `mock-server` | Flask 3.1 | 5000 | Serves `data/customers.json` (20 records) with `page`/`limit` pagination |
+| `pipeline-service` | FastAPI, SQLAlchemy 2.0, httpx | 8000 | Ingests from the mock server into PostgreSQL and exposes the stored data |
+| `postgres` | PostgreSQL 15 | 5432 | `customers` table (created automatically at service start-up) |
 
-2.  **Kafka Cluster:**
-    - A single-node Kafka cluster (with Zookeeper) serves as the backbone of the pipeline.
-    - It ingests the streaming data from the mock server and makes it available for consumption by downstream processors.
+## Running
 
-3.  **Spark Streaming Processor:**
-    - A Spark Streaming application connects to the Kafka topic and consumes the data in micro-batches.
-    - It parses the JSON data, applies transformations (e.g., joining customer and transaction data, calculating new fields), and cleans the data.
-    - The processed data is then written to a Cassandra table.
+```bash
+docker compose up --build
+```
 
-4.  **Cassandra Database:**
-    - A Cassandra node acts as the data warehouse for the structured, processed data.
-    - The data model is designed to support efficient queries and high-velocity writes from the Spark Streaming job.
+Then:
 
-## Project Workflow
+```bash
+curl -X POST http://localhost:8000/api/ingest              # start ingestion (runs in the background)
+curl "http://localhost:8000/api/customers?page=1&limit=10" # list ingested customers
+curl http://localhost:8000/api/customers/CUST001           # single customer
+curl http://localhost:8000/api/health
+```
 
-1.  The `mock-server` starts generating customer and transaction data and streams it to the `customer_data` Kafka topic.
-2.  The `pipeline-service` (Spark Streaming) consumes the raw data from the Kafka topic.
-3.  Inside the Spark job, the streaming data is cleaned, enriched, and transformed into a structured format.
-4.  The processed data is continuously written to the `customers` table in the Cassandra database.
-5.  A data analyst or downstream application can then query the Cassandra database to get real-time insights into customer activity.
+## API
 
-## Techniques and Concepts Applied
+### Mock server (`:5000`)
 
-| Technique | Application |
+| Method & path | Description |
 |---|---|
-| **Event Streaming** | Using Kafka as a durable, scalable message broker for real-time data ingestion. |
-| **Stream Processing** | Using Spark Streaming to perform stateful and stateless transformations on data in motion. |
-| **NoSQL Data Modeling** | Designing a schema in Cassandra optimized for high-write throughput and time-series data. |
-| **Containerization** | Using Docker to isolate each component of the pipeline (Kafka, Spark, Cassandra). |
-| **Orchestration** | Using Docker Compose to define and manage the multi-container application. |
-| **Data Serialization** | Handling data serialization and deserialization between services (JSON). |
+| `GET /api/customers?page=1&limit=10` | Paginated customers. `limit` is capped at 100. Non-integer values return `400`. |
+| `GET /api/customers/{customer_id}` | One customer, or `404`. |
+| `GET /api/health` | Liveness check. |
 
-## Key Learnings
+### Pipeline service (`:8000`)
 
-- **Decoupling with Kafka:** Kafka proved to be essential for decoupling the data producer from the consumer, allowing each to operate and scale independently.
-- **Spark Streaming for Complex Logic:** Spark Streaming was powerful enough to handle complex transformations and enrichments in real time, which would be difficult with simpler stream processors.
-- **Cassandra for Write-Intensive Workloads:** Cassandra's architecture is perfectly suited for the high-volume, continuous writes generated by a streaming pipeline.
-- **Challenges of Multi-Container Networking:** Setting up the network connections between the different containers in Docker Compose required careful configuration to ensure services could communicate correctly.
+| Method & path | Description |
+|---|---|
+| `POST /api/ingest` | Starts a background job and returns immediately (`{"status": "success", "message": ...}`). The job **clears the `customers` table first**, then loads all pages. Progress and totals are written to the service log. |
+| `GET /api/customers?page=1&limit=10` | Paginated customers from PostgreSQL (`limit` 1-100). Response: `{data, total, page, limit}`. |
+| `GET /api/customers/{customer_id}` | One stored customer, or `404`. |
+| `GET /api/health` | Liveness check (used by the Compose health check). |
 
-## Future Work
+## Tests
 
-- **Deployment to Kubernetes:** Migrate the Docker Compose setup to a Kubernetes cluster for better scalability, fault tolerance, and production readiness.
-- **Real-Time Analytics Dashboard:** Build a dashboard (e.g., with Streamlit or Dash) that queries Cassandra to provide real-time visualizations of customer activity.
-- **Schema Management:** Integrate a schema registry (e.g., Confluent Schema Registry) to enforce data schemas and prevent data quality issues.
-- **Data Quality Monitoring:** Add a monitoring component to track data quality metrics and alert on anomalies in the stream.
+The tests exercise the mock server's pagination and a full ingest-and-query round trip against an in-memory SQLite database (no Docker or PostgreSQL needed).
+
+```bash
+cd pipeline-service
+pip install -r requirements.txt -r ../mock-server/requirements.txt pytest
+python -m pytest -q
+```
+
+## Known Limitations
+
+- Credentials in `docker-compose.yml` (`postgres` / `password`) are for local development only.
+- Ingestion is a full reload (delete, then insert); it is not incremental or idempotent per record, and a failure partway through leaves a partial table.
+- `POST /api/ingest` has no job-status endpoint; check the container logs for the result.
+- Only the Python dependencies in each `requirements.txt` are pinned; the pipeline service pins older FastAPI/SQLAlchemy releases that were not upgraded as part of this review.
 
 ## Repository Structure
 
-```
-Customer-Data-Pipeline/
-├── mock-server/            # Mock data generator and Kafka producer
+```text
+customer-data-pipeline/
+├── docker-compose.yml
+├── mock-server/
+│   ├── app.py
+│   ├── data/customers.json
 │   ├── Dockerfile
-│   └── server.py
-├── pipeline-service/       # Spark Streaming consumer and processor
-│   ├── Dockerfile
-│   └── stream_processor.py
-└── docker-compose.yml      # Docker Compose file to orchestrate the pipeline
+│   └── requirements.txt
+└── pipeline-service/
+    ├── app.py
+    ├── test_app.py
+    ├── Dockerfile
+    └── requirements.txt
 ```
-
-## Notes
-- This project is a practical demonstration of building a real-time data engineering pipeline, showcasing skills that are highly relevant for modern data-intensive applications.
