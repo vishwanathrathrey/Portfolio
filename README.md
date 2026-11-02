@@ -113,7 +113,7 @@ Production-style projects built to demonstrate practical engineering and AI capa
 
 ### Credit Risk ML System
 
-**Stack:** Python, Scikit-learn, PySpark, Hadoop, FastAPI, React, Docker
+**Stack:** Python, Scikit-learn, PySpark, FastAPI, React, TypeScript, Docker
 
 - End-to-end ML platform
 - ETL pipelines
@@ -180,8 +180,8 @@ Portfolio/
 ├── Personal Projects/
 │   ├── Autonomous-Agent/
 │   ├── AI-Code-Review/
-│   ├── Credit-Risk-ML-System/
-│   ├── Customer-Data-Pipeline/
+│   ├── credit-risk-ml-system/
+│   ├── customer-data-pipeline/
 │   └── README.md
 │
 └── README.md
