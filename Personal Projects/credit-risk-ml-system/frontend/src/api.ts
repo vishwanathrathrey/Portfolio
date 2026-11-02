@@ -25,7 +25,8 @@ export type MetricsPayload = {
   }>;
 };
 
-const API_BASE_URL = '';
+// Empty by default: requests go through the Vite dev-server proxy (see vite.config.ts).
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '';
 
 async function requestJson<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`, {
